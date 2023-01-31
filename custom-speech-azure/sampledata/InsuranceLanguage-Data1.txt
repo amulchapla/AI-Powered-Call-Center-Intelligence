@@ -1,0 +1,156 @@
+The insurance industry safeguards the assets of its policyholders by transferring
+risk from an individual or business to an insurance company. Insurance companies act as financial intermediaries in that they invest the premiums they collect
+for providing this service. Insurance company size is usually measured by net
+premiums written, that is, premium revenues less amounts paid for reinsurance.
+There are three main insurance sectors: property/casualty, life/health and health
+insurance. Property/casualty (P/C) consists mainly of auto, home and commercial insurance. Life/health (L/H) consists mainly of life insurance and annuity
+products. Health insurance is offered by private health insurance companies
+and some L/H and P/C insurers, as well as by government programs such as
+Medicare.
+
+All types of insurance are regulated by the states, with each state having its
+own set of statutes and rules. State insurance departments oversee insurer solvency, market conduct and, to a greater or lesser degree, review and rule on
+requests for rate increases for coverage. The National Association of Insurance
+Commissioners develops model rules and regulations for the industry, many
+of which must be approved by state legislatures. The McCarran-Ferguson Act,
+passed by Congress in 1945, refers to continued state regulation of the insurance
+industry as being in the public interest. Under the 1999 Gramm-Leach-Bliley
+Financial Services Modernization Act, insurance activities—whether conducted
+by banks, broker-dealers or insurers—are regulated by the states. However, there
+have been, and continue to be, challenges to state regulation from some segments of the federal government as well as from some financial services firms.
+
+Insurers are required to use statutory accounting principles (SAP) when filing
+annual financial reports with state regulators and the Internal Revenue Service. SAP,
+which evolved to enhance the industry’s financial stability, is more conservative
+than the generally accepted accounting principles (GAAP), established by the independent Financial Accounting Standards Board (FASB). The Securities and Exchange
+Commission (SEC) requires publicly owned companies to report their financial
+results using GAAP rules. Insurers outside the United States use standards that differ from SAP and GAAP. As global markets developed, the need for more uniform
+accounting standards became clear. In 2001 the International Accounting Standards
+Board (IASB), an independent international accounting standards setting organization, began work on a set of standards, called International Financial Reporting
+Standards (IFRS) that it hopes will be used around the world. Since 2001 over 100
+countries have required or permitted the use of IFRS.
+In 2007 the SEC voted to stop requiring non-U.S. companies that use IFRS
+to re-issue their financial reports for U.S. investors using GAAP. In 2008 the
+National Association of Insurance Commissioners began to explore ways to
+move from statutory accounting principles to IFRS. Also in 2008, the FASB and
+IASB undertook a joint project to develop a common and improved framework
+for financial reporting.
+
+Property/casualty and life insurance policies were once sold almost exclusively
+by agents—either by captive agents, representing one insurance company, or
+by independent agents, representing several companies. Insurance companies
+selling through captive agents and/or by mail, telephone or via the Internet
+are called “direct writers.” However, the distinctions between direct writers and
+independent agency companies have been blurring since the 1990s, when insurers began to use multiple channels to reach potential customers. In addition, in
+the 1980s banks began to explore the possibility of selling insurance through
+independent agents, usually buying agencies for that purpose. Other distribution channels include sales through professional organizations and through
+workplaces.
+
+Auto insurance protects against financial loss in the event of an accident. It is a
+contract between the policyholder and the insurance company. The policyholder agrees to pay the premium and the insurance company agrees to pay losses as
+defined in the policy.
+Auto insurance provides property, liability and medical coverage:
+Property coverage pays for damage to, or theft of, the car.
+Liability coverage pays for the policyholder’s legal responsibility to
+others for bodily injury or property damage.
+Medical coverage pays for the cost of treating injuries, rehabilitation
+and sometimes lost wages and funeral expenses.
+Most states require drivers to have auto liability insurance before they can legally drive a car. (Liability insurance pays the other driver’s medical, car repair and
+other costs when the policyholder is at fault in an auto accident.) All states have
+laws that set the minimum amounts of insurance or other financial security
+drivers have to pay for the harm caused by their negligence behind the wheel if
+an accident occurs. Most auto policies are for six months to a year. A basic auto
+insurance policy is comprised of six different kinds of coverage, each of which is
+priced separately (see below).
+Bodily Injury Liability
+This coverage applies to injuries that the policyholder and family members listed on the policy cause to someone else. These individuals are also covered when
+driving other peoples’ cars with permission. As motorists in serious accidents
+may be sued for large amounts, drivers can opt to buy more than the staterequired minimum to protect personal assets such as homes and savings.
+Medical Payments or Personal Injury Protection (PIP)
+This coverage pays for the treatment of injuries to the driver and passengers
+of the policyholder’s car. At its broadest, PIP can cover medical payments,
+lost wages and the cost of replacing services normally performed by someone
+injured in an auto accident. It may also cover funeral costs.
+Property Damage Liability
+This coverage pays for damage policyholders (or someone driving the car with
+their permission) may cause to someone else’s property. Usually, this means
+damage to someone else’s car, but it also includes damage to lamp posts, telephone poles, fences, buildings or other structures hit in an accident.
+
+This coverage pays for damage to the policyholder’s car resulting from a collision with another car, an object or as a result of flipping over. It also covers
+damage caused by potholes. Collision coverage is generally sold with a deductible of $250 to $1,000—the higher the deductible, the lower the premium. Even
+if policyholders are at fault for an accident, collision coverage will reimburse
+them for the costs of repairing the car, minus the deductible. If the policyholder
+is not at fault, the insurance company may try to recover the amount it paid
+from the other driver’s insurance company, a process known as subrogation. If
+the company is successful, policyholders will also be reimbursed for the deductible.
+
+This coverage reimburses for loss due to theft or damage caused by something
+other than a collision with another car or object, such as fire, falling objects,
+missiles, explosions, earthquakes, windstorms, hail, flood, vandalism and riots,
+or contact with animals such as birds or deer. Comprehensive insurance is usually sold with a $100 to $300 deductible, though policyholders may opt for a
+higher deductible as a way of lowering their premium. Comprehensive insurance may also reimburse the policyholder if a windshield is cracked or shattered.
+Some companies offer separate glass coverage with or without a deductible.
+States do not require the purchase of collision or comprehensive coverage, but
+lenders may insist borrowers carry it until a car loan is paid off. It may also be a
+requirement of some dealerships if a car is leased.
+6. Uninsured and Underinsured Motorist Coverage
+Uninsured motorist coverage will reimburse the policyholder, a member of the
+family or a designated driver if one of them is hit by an uninsured or a hit-andrun driver. Underinsured motorist coverage comes into play when an at-fault
+driver has insufficient insurance to pay for the other driver’s total loss. This coverage will also protect a policyholder who is hit while a pedestrian.
+
+Homeowners insurance provides financial protection against disasters. It is a package policy, which means that it covers both damage to property and liability, or
+legal responsibility, for any injuries and property damage policyholders or their
+families cause to other people. This includes damage caused by household pets.
+Damage caused by most disasters is covered but there are exceptions. Standard
+homeowners policies do not cover flooding, earthquakes or poor maintenance.
+Flood coverage, however, is available in the form of a separate policy both from
+the National Flood Insurance Program (NFIP) and from a few private insurers. Earthquake coverage is available either in the form of an endorsement or
+as a separate policy. Most maintenance-related problems are the homeowners’
+responsibility.
+A standard homeowners insurance policy includes four essential types of
+coverage. They include:
+Coverage for the Structure of the Home
+This part of a policy pays to repair or rebuild a home if it is damaged or
+destroyed by fire, hurricane, hail, lightning or other disaster listed in the policy.
+It will not pay for damage caused by a flood, earthquake or routine wear and
+tear. Most standard policies also cover structures that are not attached to a
+house such as a garage, tool shed or gazebo. Generally, these structures are covered for about 10 percent of the total amount of insurance on the structure of
+the home.
+Coverage for Personal Belongings
+Furniture, clothes, sports equipment and other personal items are covered if
+they are stolen or destroyed by fire, hurricane or other insured disaster. Most
+companies provide coverage for 50 to 70 percent of the amount of insurance on
+the structure of a home. This part of the policy includes off-premises coverage.
+This means that belongings are covered anywhere in the world, unless the policyholder has decided against off-premises coverage. Expensive items like jewelry,
+furs and silverware are covered, but there are usually dollar limits if they are stolen. To insure these items to their full value, individuals can purchase a special
+personal property endorsement or floater and insure the item for its appraised
+value.
+Trees, plants and shrubs are also covered under standard homeowners insurance—generally up to about $500 per item. Perils covered are theft, fire, lightning, explosion, vandalism, riot and even falling aircraft. They are not covered
+for damage by wind or disease
+
+Liability coverage protects against the cost of lawsuits for bodily injury or property damage that policyholders or family members cause to other people. It also
+pays for damage caused by pets. The liability portion of the policy pays for both
+the cost of defending the policyholder in court and any court awards—up to the
+limit of the policy. Coverage is not just in the home but extends to anywhere
+in the world. Liability limits generally start at about $100,000. However, experts
+recommend that homeowners purchase at least $300,000 worth of protection.
+An umbrella or excess liability policy, which provides broader coverage, including claims for libel and slander, as well as higher liability limits, can be added to
+the policy. Generally, umbrella policies cost between $200 to $350 for $1 million of additional liability protection.
+Homeowners policies also provide no-fault medical coverage. In the event
+that someone is injured in a policyholder’s home, the injured person can simply submit medical bills to the policyholder’s insurance company. In this way
+expenses are paid without a liability claim being filed. This coverage, however,
+does not pay the medical bills for the policyholder’s own family or pets.
+4. Additional Living Expenses
+This pays the additional costs of living away from home if a house is inhabitable due to damage from a fire, storm or other insured disaster. It covers hotel
+bills, restaurant meals and other extra living expenses incurred while the home
+is being rebuilt. Coverage for additional living expenses differs from company to
+company. Many policies provide coverage for about 20 percent of the insurance
+on a house. The coverage can be increased for an additional premium. Some
+companies sell a policy that provides an unlimited amount of loss-of-use coverage, but for a limited amount of time.
+Additional living expense coverage also reimburses homeowners who rent
+out part of their home for the rent that would have been collected from a tenant if the home had not been destroyed.
+Types of Homeowners Insurance Policies
+There are several types of homeowners insurance policies that differ in the amount
+of insurance coverage they provide. The different types are fairly standard throughout the country. However, individual states and companies may offer policies that
+are slightly different or go by other names such as “standard” or “deluxe.” People
+who rent the homes they live in have specific renters policies.

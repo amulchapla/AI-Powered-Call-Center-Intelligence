@@ -1,0 +1,50 @@
+.main-container {
+  margin-top: 100px; 
+  background-image: url(images/OIP2.jpg); 
+}
+
+.app-container {
+  color: #f4eeee;
+  height: 100vh;
+  background-color: #272727;
+  background-image: url(images/OIP2.jpg); 
+}
+
+.fa-microphone {
+  color: #14A76C;
+}
+
+.fa-microphone:hover {
+  color: #f2f0ef;
+}
+
+.fa-file-audio {
+  color: #f4f1ef;
+}
+
+.fa-file-audio:hover {
+  color: #f6f2f1;
+}
+
+.output-display {
+  color: white;
+  background-color: #171c1c;
+  white-space: break-spaces;
+  height: 700px;
+}
+
+.nlpoutput-display {
+  color: white;
+  background-color: #171c1c;
+  white-space: break-spaces;
+  height: 700px;
+}
+
+.fas, .fa {
+  cursor: pointer;
+}
+
+.background {
+  background-color: #272727;
+  color: #f3f2f2;
+}

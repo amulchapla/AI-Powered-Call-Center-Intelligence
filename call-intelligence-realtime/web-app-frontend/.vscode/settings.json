@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/636c0f7e-d103-4a9c-a904-f929d2a83c88/resourceGroups/learn-2696d155-aa17-4e66-b705-20560ca1e7/providers/Microsoft.Web/sites/speechreactfrontendamc",
+    "appService.deploySubpath": "."
+}

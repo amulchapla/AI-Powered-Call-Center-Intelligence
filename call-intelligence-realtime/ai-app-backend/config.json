@@ -1,0 +1,14 @@
+[
+    {
+        "name": "speech",
+        "subscription_key": "07d87044f31d4d4c9c7cfa0fd338cef4",
+        "region": "eastus",
+        "endpoint_id": "036d9808-81bd-40d4-bf82-b46e131da519",
+        "text_analytics_key": "0a0a3e80d44848a28f456d11ac84281f",
+        "text_analytics_endpoint": "https://azurelanguageamc2023.cognitiveservices.azure.com/",
+        "openai_endpoint": "https://amcazureopenaitest.openai.azure.com/",
+        "openai_key": "24b52e9dbeca449e9c123d847f13ef8b",
+        "openai_deployment_name": "davincitest_endpoint1",
+        "web_port": "8080"
+    }
+]

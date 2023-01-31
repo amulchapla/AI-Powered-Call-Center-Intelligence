@@ -1,0 +1,25 @@
+{
+  "name": "speechexpressbackend",
+  "version": "1.0.0",
+  "description": "Express backend to enable audio streaming using Azure Speech using token",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node serverapp.js",
+    "server": "nodemon serverapp.js"
+  },
+  "keywords": [
+    "Azure",
+    "Speech"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@azure/ai-text-analytics": "^5.1.0",
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

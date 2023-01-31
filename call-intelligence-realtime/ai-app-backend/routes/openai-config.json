@@ -1,0 +1,16 @@
+[
+    {
+        "openai_api_type": "azure",
+        "openai_api_version": "2022-12-01",
+        "openai_max_tokens": 120,
+        "openai_temperature": 0.7,
+        "openai_top_p": 1,
+        "openai_frequency_penalty": 0,
+        "openai_presence_penalty": 0,
+        "insurance_prompt" : "Extract the following from the conversation:\n1. Main reason of the conversation\n2. Sentiment of the customer\n3. Where the accident happened?\n4. How did the accident happen?\n5. What was the weather like when the accident happened?\n6. What is customer's phone number?\n7. Was the airbag deployed when accident happened?",
+        "banking_prompt" : "Extract the following from the conversation:\n1. Main reason of the conversation\n2. Sentiment of the customer"  ,
+        "capitalmarkets_prompt" : "Extract the following from the conversation:\n1. Main reason of the conversation\n2. Sentiment of the customer"  ,
+        "healthcare_prompt" : "Extract the following from the conversation:\n1. Main reason of the conversation\n2. Sentiment of the customer\n3. What health condition was discussed? \n4. Was any medication mentioned in the conversation?\n5. Identify medical entities such as symptoms, medications, diagnosis from this conversaion."  ,
+        "general_prompt" : "Extract the following from the conversation:\n1. Main reason of the conversation\n2. Sentiment of the customer\n3. What are the action items and follow-ups?"  
+    }
+]
