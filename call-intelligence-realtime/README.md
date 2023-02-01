@@ -4,8 +4,8 @@ This sample simulates call center intelligence in real-time using Azure AI servi
 
 This sample shows design pattern examples for authentication token exchange and management, as well as capturing audio from a microphone or file for speech-to-text conversions.
 
-Below architecture diagram depicts key components and API/communication sequence used in this sample
-<img src="common/images/speechstreamingdiagram.PNG" align="center" />
+Below diagram depicts key components and API/communication used in this sample
+<img src="common/images/realtime-intelligence.PNG" align="center" />
 
 This sample uses Express.js backend framework which allows you to make http calls from any front end. ReactJS is used for frontend app. *NOTE*: This sample is only using the Azure Speech SDK - it does not use Azure Bot Service and Direct Line Speech channel.
 

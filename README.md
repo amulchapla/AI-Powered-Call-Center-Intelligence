@@ -2,19 +2,21 @@
 
 The Call Center Intelligence Accelerator drives huge cost saving in call center operations while improving call center efficiency & customer satisfaction.
 
-It uses Azure Speech, Azure Language and Azure OpenAI (GPT-3) services to analyze call center transcriptions, extract and redact conversation personally identifiable information (PII), summarize the transcription, and detect the sentiment. It delivers deeper business insights for managers and enables them to evaluate call center performance far more efficiently and effectively in real-time and batch scenarios. Data insight on customer sentiment, topic analysis, and other valuable call attributes are served up in a user-friendly visual dashboard in Power BI.
+It uses Azure Speech, Azure Language and Azure OpenAI (GPT-3) services to analyze call center transcrips, extract and redact conversation personally identifiable information (PII), summarize the transcription, and provides rich business insights that could be used in real-time. It delivers deeper business insights for managers and enables them to evaluate call center performance far more efficiently and effectively in real-time and batch scenarios. Data insight on customer sentiment, topic analysis, and other valuable call attributes are served up in a user-friendly visual dashboard in Power BI.
+
+The diagram below depicts key business outcomes that this solution could help accelerate
+<img src="common/images/callcenteraibizview.png" align="center" />
 
 This is a sample accelerator for Call Center Intelligence powered by Azure AI (including new Azure OpenAI GPT-3). It shows how Azure AI services could be used both in real-time and post-call analytics scenarios for an Intelligent Contact Center.
 
-The diagram below depicts key components and Azure services used in this sample accelerator.
-
-<img src="common/images/highleveloverviewv2.PNG" align="center" />
-
 This solution accelerator has two main components:
-1. Real-time Intelligence component: Real-time transcription and analysis of a call to improve the customer experience by providing insights and suggest actions to agents. This can help with agent-assist and virtual agents use cases.
-2. Post-call Analytics component: Post-call analysis to create insights into customer conversations to improve understanding and support continuous improvement of call handling, optimization of quality assurance and compliance control as well as other insight driven optimizations.
+1. `Real-time Intelligence` component: Real-time transcription and analysis of a call to improve the customer experience by providing insights and suggest actions to agents. This can help with agent-assist and virtual agents use cases.
+2. `Post-call Analytics` component: Post-call analysis to create insights into customer conversations to improve understanding and support continuous improvement of call handling, optimization of quality assurance and compliance control as well as other insight driven optimizations.
 
 This solution accelerator is modular and above two parts can be used independently of each other, if needed. i.e Real-time Intelligence and Post-call Analytics components can be used independently.
+
+The diagram below depicts key components and Azure services used in this sample accelerator.
+<img src="common/images/highleveloverviewv2.png" align="center" />
 
 ## Contents
 
@@ -22,9 +24,9 @@ Outline the file contents of the repository. It helps users navigate the codebas
 
 |Solution accelerator component| Folder                              | Description                                |
 |------------------------------|-------------------------------------|--------------------------------------------|
-|Real-time Intelligence| [call-intelligence-realtime](call-intelligence-realtime)    | Web application & APIs that simulates real-time call intelligence. It performs real-time conversation transcription and extracts conversation information (including PII detection + redection). It also includes features to generate conversation summary using Azure OpenAI GPT-3 model along with ability to extract business insights in near real-time        |
-|Post-call Analytics| [postcall-analytics-azure](postcall-analytics-azure)      | ARM template file and deployment guide for performing ingestion & batch analytics of calls using various Azure AI services. This part of the accelerator can be to perform analytics on call recordings and does not require integration with telephony or other live-audio capturing mechanism.   |
-|Post-call Analytics| [postcall-analytics-powerbi](postcall-analytics-powerbi)                  | Template files and deployment guide for visualizing call insights using Power BI.      |
+|Real-time Intelligence    | [call-intelligence-realtime](call-intelligence-realtime)    | Web application & APIs that simulates real-time call intelligence. It performs real-time conversation transcription and extracts conversation information (including PII detection + redection). It also includes features to generate conversation summary using Azure OpenAI GPT-3 model along with ability to extract business insights in near real-time        |
+|Post-call Analytics    | [postcall-analytics-azure](postcall-analytics-azure)      | ARM template file and deployment guide for performing ingestion & batch analytics of calls using various Azure AI services. This part of the accelerator can be to perform analytics on call recordings and does not require integration with telephony or other live-audio capturing mechanism.   |
+|Post-call Analytics    | [postcall-analytics-powerbi](postcall-analytics-powerbi)                  | Template files and deployment guide for visualizing call insights using Power BI.      |
 |(Optional) Real-time Intelligence or Post-call Analytics| [azure-custom-speech](azure-custom-speech)              | You could use standard Azure Sample data and instructions to create custom transcription model using Azure Speech service. This step produces a custom speech model. This step is OPTIONAL.                  |
 
 
