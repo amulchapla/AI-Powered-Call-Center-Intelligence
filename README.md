@@ -5,7 +5,7 @@ The Call Center Intelligence Accelerator drives huge cost saving in call center 
 It uses Azure Speech, Azure Language and Azure OpenAI (GPT-3) services to analyze call center transcrips, extract and redact conversation personally identifiable information (PII), summarize the transcription, and provides rich business insights that could be used in real-time. It delivers deeper business insights for managers and enables them to evaluate call center performance far more efficiently and effectively in real-time and batch scenarios. Data insight on customer sentiment, topic analysis, and other valuable call attributes are served up in a user-friendly visual dashboard in Power BI.
 
 The diagram below depicts key business outcomes that this solution could help accelerate
-<img src="common/images/callcenteraibizview.png" align="center" />
+<img src="common/images/callcenteraibizview.png" align="center" width="535" height="479"/>
 
 This is a sample accelerator for Call Center Intelligence powered by Azure AI (including new Azure OpenAI GPT-3). It shows how Azure AI services could be used both in real-time and post-call analytics scenarios for an Intelligent Contact Center.
 
@@ -16,7 +16,7 @@ This solution accelerator has two main components:
 This solution accelerator is modular and above two parts can be used independently of each other, if needed. i.e Real-time Intelligence and Post-call Analytics components can be used independently.
 
 The diagram below depicts key components and Azure services used in this sample accelerator.
-<img src="common/images/highleveloverviewv2.png" align="center" />
+<img src="common/images/highleveloverviewv2.png" align="center" width="564" height="385" />
 
 ## Contents
 
