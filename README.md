@@ -39,9 +39,7 @@ Outline the file contents of the repository. It helps users navigate the codebas
 
 ## Dependencies
 
-This accelerator is modular and some parts can be used independently and some components depend on other steps to be completed. In summary, real-time and post-call analytics can be used independently. Below is a list of dependencies:
-* Step 2 depends on Step 1 to be completed. Custom Speech model created in Step 1 is used in Step 2. Step 2 can be used without step 1 with minor code modifications (for advanced users only).
-* Step 3 and Step 4 can be used independently, if you have sample call recordings. If you don't have sample call recordings, then use Step 2 to simulate business conversations and capture the recording that you could use in this step.
+This accelerator is modular and some parts can be used independently and some components depend on other steps to be completed. In summary, real-time and post-call analytics can be used independently. Above table highlights key components of this solution.
 
 ## Getting started
 

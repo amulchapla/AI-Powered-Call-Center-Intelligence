@@ -1,66 +1,78 @@
-# Real-time Transcription using Azure Speech in ReactJS
+# Real-time Call Intelligence using Azure AI
 
-This sample simulates call center intelligence in real-time using Azure AI services. The code also records the conversation to Azure storage using the conversation ID provided by the user on web UI.
+This sample simulates call center intelligence in real-time using Azure AI services. It uses Azure Speech SDK to capture audio from a microphone and convert it to text. The text is then sent to Azure Language service to extract entities, key phrases, and detect+ redact PII information. The data is then displayed in a web page in real-time using streaming pattern.
 
-This sample shows design pattern examples for authentication token exchange and management, as well as capturing audio from a microphone or file for speech-to-text conversions.
+Once the call is completed, the transcript is sent to Azure OpenAI service to summarize the call. Azure OpenAI service is also used to parse raw call transcript and extract key business information using domain specific prompts. The data is then displayed in a web page UI.
+
+The web provides an option to select business domain for a specific conversation. The domain is used to select the appropriate OpenAI prompt to extract key business information.
+
+This sample shows design pattern examples for authentication token exchange and management, as well as capturing audio from a microphone for speech-to-text conversions.
 
 Below diagram depicts key components and API/communication used in this sample
 <img src="common/images/realtime-intelligence.png" align="center" />
 
 This sample uses Express.js backend framework which allows you to make http calls from any front end. ReactJS is used for frontend app. *NOTE*: This sample is only using the Azure Speech SDK - it does not use Azure Bot Service and Direct Line Speech channel.
 
-* **Express.js**: Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. It facilitates the rapid development of Node based web applications.
+* **ai-app-backend**: `ai-app-backend` is an Express-based backend API app. Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. It facilitates the rapid development of Node based web applications.
 
-* **React.js** often referred to as React or ReactJS is a JavaScript library responsible for building a hierarchy of UI components or in other words, responsible for the rendering of UI components. It provides support for both frontend and server-side.
+* **web-app-frontend** `web-app-frontend` is a React-based web frontend app. React.js often referred to as React or ReactJS is a JavaScript library responsible for building a hierarchy of UI components or in other words, responsible for the rendering of UI components. It provides support for both frontend and server-side.
 
 ## Prerequisites
 
-1. This article assumes that you have an Azure account and Speech service subscription. If you don't have an account and subscription, [try the Speech service for free](https://docs.microsoft.com/azure/cognitive-services/speech-service/overview#try-the-speech-service-for-free).
-1. Ensure you have [Node.js](https://nodejs.org/en/download/) installed.
+1. This article assumes that you have an Azure account. If you don't have an Azure account and subscription, [try the Azure account for free](https://azure.microsoft.com/en-us/free/search/).
+2. Create a [Azure Speech resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices) in the Azure portal.
+3. Create a [Azure Language resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics) in the Azure portal.
+4. Optionally, create a [Azure OpenAI resource](https://portal.azure.com/?microsoft_azure_marketplace_ItemHideKey=microsoft_openai_tip#create/Microsoft.CognitiveServicesOpenAI?WT.mc_id=academic-84928-cacaste) in the Azure portal. Note: OpenAI is currently in preview and is not available in all regions. You can check the [OpenAI documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/openai/overview?WT.mc_id=academic-84928-cacaste) for more information.
+5. Ensure you have [Node.js](https://nodejs.org/en/download/) installed on your laptop to run the frontend and backend apps on local machine.
 
 ## How to run the app
 
 1. Clone this repo. This repo has two apps as shown in the architecture diagram above: 
-    * speechreactfrontend folder is for the "ReactJS Frontend" component and
-    * speechexpressbackend folder is for the "ExpressJS Backend" component 
+    * web-app-frontend folder is for the "ReactJS Frontend" web UI component and
+    * ai-app-backend folder is for the "ExpressJS Backend" API backend component 
 
 
-2. **Prepare and run the Speech service Express.js backend**
-    -	Go to speechexpressbacked directory and run `npm install -all` to install dependencies.
-    -	Update the “.env” file with your Azure Speech service key and Azure region. Azure Region value examples: “eastus2”, “westus”
-    -	Start Speech service backend app by running `‘npm start’`
+2. **Prepare and run the ai-app-backend Express.js backend**
+    -	Go to ai-app-backend directory and run `npm install -all` to install dependencies.
+    -	Update the “config.json” file with your Azure Speech service key (subscription_key property) and Azure region (region property). Azure Region value examples: “eastus2”, “westus”
+    -	Update the “config.json” file with your Azure Language service key (text_analytics_key property) and endpoint (text_analytics_endpoint property). 
+    -	Update the “config.json” file with your Azure OpenAI service key (openai_key property), endpoint (openai_endpoint property) and deployment name (openai_deployment_name property).
+    -	Start backend AI API app by running `‘npm start’`
     -	If you are running this locally then try accessing below URLs from browser to verify that the backend component is working as expected
         *	`http://localhost:8080/api/sayhello`
         *	`http://localhost:8080/api/get-speech-token`
-    -	If you have deployed speechexpressbacked app to Azure App Service (as per instructions below) then you can verify using URLs from browser as below:
+    -	If you have deployed ai-app-backend app to Azure App Service (as per instructions below) then you can verify using URLs from browser as below:
         *	`https://<<your backend Azure App service name>>/api/sayhello`
         *	`https://<<your backend Azure App service name>>/api/get-speech-token`
-3.	**Prepare and run the Speech client React.js frontend**
-    +	Go to speechreactfrontend directory and run `npm install -all` to install dependencies.
+3.	**Prepare and run the web-app-frontend (for web UI)**
+    +	Go to web-app-frontend directory and run `npm install -all` to install dependencies.
     +	Update “package.json” as following. Set value of “proxy” depending on where your Express.js backend is running. 
-    +	If Express.js backend “speechexpressbacked” running on local machine then use `"proxy": "http://localhost:8080"`
-    +	If Express.js backend “speechexpressbacked”running on Azure. Use `"proxy": https://<<your backend Azure App service name>>.azurewebsites.net`
-    +	Open a browser and go to `http://localhost:3000` to access the app. Click on the microphone icon on the web page and start talking. You should see transcription displayed on the web page in real-time (an example shown below).
+    +   Start frontend web app by running `‘npm start’`
+    +	If Express.js backend “ai-app-backend” running on local machine then use `"proxy": "http://localhost:8080"`
+    +	If Express.js backend “ai-app-backend”running on Azure. Use `"proxy": https://<<your backend Azure App service name>>.azurewebsites.net`
+    +	Open a browser and go to `http://localhost:3000` to access the app. 
+    +   On the web UI, select a business domain that alings best with your conversation scenario from the "Choose Conversation Scenario" dropbox.
+    +   Click on the "Click HERE and START Talking" button on the web page and start talking. You should see transcription displayed on the web page in real-time (an example shown below).
 
 
 
     <img src="common/images/sampleoutputrealtimetranscription.PNG " align="center" />
 
 
-    +	If you have also deployed the frontend ReactJS to Azure App Service then use the deployed app service URL which you can find on Azure portal for your App Service. Example: `https://myspeechreactfrontend.azurewebsites.net`
+    +	If you have also deployed the frontend ReactJS to Azure App Service then use the deployed app service URL which you can find on Azure portal for your App Service. Example: `https://myweb-app-frontend.azurewebsites.net`
 
 
 
 ## Deploying sample code to Azure App Service
 You can deploy your Node.js app using VS Code and the Azure App Service extension. Follow instructions [Deploy NodeJS using Azure App Service]:https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs?pivots=platform-linux#deploy-to-azure that explains how to deploy any node app to Azure App Service. 
 
-* To deploy **speechexpressbacked** to Azure App Service, select the “speechexpressbacked” as the root folder when prompted in the VS code. 
+* To deploy **ai-app-backend** to Azure App Service, select the “ai-app-backend” as the root folder when prompted in the VS code. 
     - Validate that your ExpressJS backend is successfully deployed by trying to access one of the two APIs hosted by your backend
     - `https://<<your backend Azure App service name>>/api/sayhello`
     - `https://<<your backend Azure App service name>>/api/get-speech-token`
 
-* Similarly, you can deploy **speechreactfrontend** to another Azure App Service instance by selecting the root folder for this app. This sample assumes that you are deploying the frontend and the backend app on a **separate** app service instance.
-    - Before deploying your “speechreactfrontend”, update “package.json”. Set the value of “proxy” pointing it to the “speechexpressbacked” App Service URL. Use `"proxy": https://<<your backend Azure App service name>>.azurewebsites.net`
+* Similarly, you can deploy **web-app-frontend** to another Azure App Service instance by selecting the root folder for this app. This sample assumes that you are deploying the frontend and the backend app on a **separate** app service instance.
+    - Before deploying your “web-app-frontend”, update “package.json”. Set the value of “proxy” pointing it to the “ai-app-backend” App Service URL. Use `"proxy": https://<<your backend Azure App service name>>.azurewebsites.net`
     - Deploy your frontend after updating package.json.
     - You should now be able to access the web app and do real-time transcription from a browser from your mobile phone or any other device that can access the app service url. 
 
@@ -121,54 +133,15 @@ const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
 const recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
 ```
 
-## Speech-to-text from file
-
-To convert speech-to-text from an audio file, run the app and then click **Convert speech to text from an audio file.**. This will open a file browser and allow you to select an audio file. The following function `fileChange` is bound to an event handler that detects the file change. 
-
-```javascript
-async fileChange(event) {
-    const audioFile = event.target.files[0];
-    console.log(audioFile);
-    const fileInfo = audioFile.name + ` size=${audioFile.size} bytes `;
-
-    this.setState({
-        displayText: fileInfo
-    });
-
-    const tokenObj = await getTokenOrRefresh();
-    const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(tokenObj.authToken, tokenObj.region);
-    speechConfig.speechRecognitionLanguage = 'en-US';
-
-    const audioConfig = speechsdk.AudioConfig.fromWavFileInput(audioFile);
-    const recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
-
-    recognizer.recognizeOnceAsync(result => {
-        let displayText;
-        if (result.reason === ResultReason.RecognizedSpeech) {
-            displayText = `RECOGNIZED: Text=${result.text}`
-        } else {
-            displayText = 'ERROR: Speech was cancelled or could not be recognized. Ensure your microphone is working properly.';
-        }
-
-        this.setState({
-            displayText: fileInfo + displayText
-        });
-    });
-}
-```
-
-You need the audio file as a JavaScript [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File) object, so you can grab it directly off the event target using `const audioFile = event.target.files[0];`. Next, you use the file to create the `AudioConfig` and then pass it to the recognizer.
-
-```javascript
-const audioConfig = speechsdk.AudioConfig.fromWavFileInput(audioFile);
-const recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
-```
 
 ## Token exchange process
 
 This sample application shows an example design pattern for retrieving and managing tokens, a common task when using the Speech JavaScript SDK in a browser environment. A simple Express back-end is implemented in the same project under `server/index.js`, which abstracts the token retrieval process. 
 
 The reason for this design is to prevent your speech key from being exposed on the front-end, since it can be used to make calls directly to your subscription. By using an ephemeral token, you are able to protect your speech key from being used directly. To get a token, you use the Speech REST API and make a call using your speech key and region. In the Express part of the app, this is implemented in `index.js` behind the endpoint `/api/get-speech-token`, which the front-end uses to get tokens. 
+
+Below diagram depicts key sequences during the token exchange process (and overall AI API orchestration done by the backend component) in this sample.
+<img src="common/images/tokenandaiapiarchitecture.png" align="center" />
 
 ```javascript
 app.get('/api/get-speech-token', async (req, res, next) => {
