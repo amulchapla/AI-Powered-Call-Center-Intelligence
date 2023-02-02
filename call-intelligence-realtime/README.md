@@ -54,13 +54,10 @@ This sample uses Express.js backend framework which allows you to make http call
     +   On the web UI, select a business domain that alings best with your conversation scenario from the "Choose Conversation Scenario" dropbox.
     +   Click on the "Click HERE and START Talking" button on the web page and start talking. You should see transcription displayed on the web page in real-time (an example shown below).
 
-
-
     <img src="common/images/sampleoutputrealtimetranscription.PNG " align="center" />
 
 
     +	If you have also deployed the frontend ReactJS to Azure App Service then use the deployed app service URL which you can find on Azure portal for your App Service. Example: `https://myweb-app-frontend.azurewebsites.net`
-
 
 
 ## Deploying sample code to Azure App Service
@@ -143,61 +140,9 @@ The reason for this design is to prevent your speech key from being exposed on t
 Below diagram depicts key sequences during the token exchange process (and overall AI API orchestration done by the backend component) in this sample.
 <img src="common/images/tokenandaiapiarchitecture.png" align="center" />
 
-```javascript
-app.get('/api/get-speech-token', async (req, res, next) => {
-    res.setHeader('Content-Type', 'application/json');
-    const speechKey = process.env.SPEECH_KEY;
-    const speechRegion = process.env.SPEECH_REGION;
-
-    if (speechKey === 'paste-your-speech-key-here' || speechRegion === 'paste-your-speech-region-here') {
-        res.status(400).send('You forgot to add your speech key or region to the .env file.');
-    } else {
-        const headers = { 
-            headers: {
-                'Ocp-Apim-Subscription-Key': speechKey,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        };
-
-        try {
-            const tokenResponse = await axios.post(`https://${speechRegion}.api.cognitive.microsoft.com/sts/v1.0/issueToken`, null, headers);
-            res.send({ token: tokenResponse.data, region: speechRegion });
-        } catch (err) {
-            res.status(401).send('There was an error authorizing your speech key.');
-        }
-    }
-});
-```
-
 In the request, you create a `Ocp-Apim-Subscription-Key` header, and pass your speech key as the value. Then you make a request to the **issueToken** endpoint for your region, and an authorization token is returned. In a production application, this endpoint returning the token should be *restricted by additional user authentication* whenever possible. 
 
 On the front-end, `token_util.js` contains the helper function `getTokenOrRefresh` that is used to manage the refresh and retrieval process. 
-
-```javascript
-export async function getTokenOrRefresh() {
-    const cookie = new Cookie();
-    const speechToken = cookie.get('speech-token');
-
-    if (speechToken === undefined) {
-        try {
-            const res = await axios.get('/api/get-speech-token');
-            const token = res.data.token;
-            const region = res.data.region;
-            cookie.set('speech-token', region + ':' + token, {maxAge: 540, path: '/'});
-
-            console.log('Token fetched from back-end: ' + token);
-            return { authToken: token, region: region };
-        } catch (err) {
-            console.log(err.response.data);
-            return { authToken: null, error: err.response.data };
-        }
-    } else {
-        console.log('Token fetched from cookie: ' + speechToken);
-        const idx = speechToken.indexOf(':');
-        return { authToken: speechToken.slice(idx + 1), region: speechToken.slice(0, idx) };
-    }
-}
-```
 
 This function uses the `universal-cookie` library to store and retrieve the token from local storage. It first checks to see if there is an existing cookie, and in that case it returns the token without hitting the Express back-end. If there is no existing cookie for a token, it makes the call to `/api/get-speech-token` to fetch a new one. Since we need both the token and its corresponding region later, the cookie is stored in the format `token:region` and upon retrieval is spliced into each value.
 
