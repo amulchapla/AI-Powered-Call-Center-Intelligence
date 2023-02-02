@@ -194,18 +194,18 @@
             }
         },
         "PiiRedaction": {
-            "defaultValue": "UtteranceAndAudioLevel",
-            "type": "String",
-            "allowedValues": [
-                "None",
-                "UtteranceAndAudioLevel"
-            ],
-            "metadata": {
-                "description": "A value indicating whether personally identifiable information (PII) redaction is requested. Will only be performed if a Text Analytics Key and Region is provided."
-            }
+          "defaultValue": "UtteranceAndAudioLevel",
+          "type": "String",
+          "allowedValues": [
+              "None",
+              "UtteranceAndAudioLevel"
+          ],
+          "metadata": {
+              "description": "A value indicating whether personally identifiable information (PII) redaction is requested. Will only be performed if a Text Analytics Key and Region is provided."
+          }
         },
         "SqlAdministratorLogin": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "",
             "metadata": {
                 "description": "The administrator username of the SQL Server, which is used to gain insights of the audio with the provided PowerBI scripts. If it is left empty, no SQL server/database will be created."
@@ -219,7 +219,7 @@
             }
         },
         "DeploymentId": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "[utcNow()]",
             "metadata": {
                 "description": "Id that will be suffixed to all created resources to identify resources of a certain deployment. Leave as is to use timestamp as deployment id."
@@ -227,6 +227,7 @@
         }
     },
     "variables": {
+        "Version": "v2.0.3",
         "AudioInputContainer": "audio-input",
         "AudioProcessedContainer": "audio-processed",
         "ErrorFilesOutputContainer": "audio-failed",
@@ -265,9 +266,17 @@
         "TextAnalyticsKeySecretName": "TextAnalyticsKey",
         "DatabaseConnectionStringSecretName": "DatabaseConnectionString",
         "PiiCategories": "",
+        "ConversationPiiCategories": "",
+        "ConversationPiiRedaction": "None",
+        "ConversationPiiInferenceSource": "text",
+        "ConversationSummarizationOptions": "{\"Stratergy\":{\"Key\":\"Channel\",\"Mapping\":{\"0\":\"Agent\",\"1\":\"Customer\"},\"FallbackRole\":\"None\"},\"Aspects\":[\"Issue\",\"Resolution\",\"ChapterTitle\",\"Narrative\"],\"Enabled\":false,\"InputLengthLimit\":125000}",
         "IsAzureGovDeployment": "[or(equals(parameters('AzureSpeechServicesRegion'),'usgovarizona'), equals(parameters('AzureSpeechServicesRegion'),'usgovvirginia'))]",
         "AzureSpeechServicesEndpointUri": "[if(not(equals(parameters('CustomEndpoint'),'')), parameters('CustomEndpoint'), if(variables('IsAzureGovDeployment'), concat('https://', parameters('AzureSpeechServicesRegion') ,'.api.cognitive.microsoft.us/'), concat('https://', parameters('AzureSpeechServicesRegion') ,'.api.cognitive.microsoft.com/')))]",
-        "EndpointSuffix": "[if(variables('IsAzureGovDeployment'),'core.usgovcloudapi.net','core.windows.net')]"
+        "EndpointSuffix": "[if(variables('IsAzureGovDeployment'),'core.usgovcloudapi.net','core.windows.net')]",
+        "BinariesRoutePrefix": "https://github.com/Azure-Samples/cognitive-services-speech-sdk/releases/download/ingestion-",
+        "StartTranscriptionByTimerBinary": "[concat(variables('BinariesRoutePrefix'), variables('Version'), '/StartTranscriptionByTimer.zip')]",
+        "StartTranscriptionByServiceBusBinary": "[concat(variables('BinariesRoutePrefix'), variables('Version'), '/StartTranscriptionByServiceBus.zip')]",
+        "FetchTranscriptionBinary": "[concat(variables('BinariesRoutePrefix'), variables('Version'), '/FetchTranscription.zip')]"
     },
     "resources": [
         {
@@ -426,23 +435,6 @@
                             "dependsOn": [
                                 "[variables('DatabaseName')]"
                             ]
-                        },
-                        {
-                            "name": "Import",
-                            "condition": "[variables('UseSqlDatabase')]",
-                            "type": "extensions",
-                            "apiVersion": "2014-04-01",
-                            "dependsOn": [
-                                "[resourceId('Microsoft.Sql/servers/databases', variables('SqlServerName'), variables('DatabaseName'))]"
-                            ],
-                            "properties": {
-                                "operationMode": "Import",
-                                "storageKey": "?",
-                                "storageKeyType": "SharedAccessKey",
-                                "administratorLogin": "[parameters('SqlAdministratorLogin')]",
-                                "administratorLoginPassword": "[parameters('SqlAdministratorLoginPassword')]",
-                                "storageUri": "https://ingestionclientstorage.blob.core.windows.net/binaries/11102021.0/IngestionClient.bacpac"
-                            }
                         }
                     ]
                 },
@@ -571,7 +563,7 @@
                 "deadLetteringOnMessageExpiration": false,
                 "enableBatchedOperations": false,
                 "duplicateDetectionHistoryTimeWindow": "PT10M",
-                "maxDeliveryCount": 1,
+                "maxDeliveryCount": 5,
                 "status": "Active",
                 "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
                 "enablePartitioning": false,
@@ -865,7 +857,7 @@
                 "ErrorReportOutputContainer": "[variables('ErrorReportOutputContainer')]",
                 "FetchTranscriptionServiceBusConnectionString": "[listKeys(variables('AuthRuleFT'),'2015-08-01').primaryConnectionString]",
                 "FilesPerTranscriptionJob": "[variables('FilesPerTranscriptionJob')]",
-                "FUNCTIONS_EXTENSION_VERSION": "~3",
+                "FUNCTIONS_EXTENSION_VERSION": "~4",
                 "FUNCTIONS_WORKER_RUNTIME": "dotnet",
                 "AzureSpeechServicesEndpointUri": "[variables('AzureSpeechServicesEndpointUri')]",
                 "InitialPollingDelayInMinutes": "[variables('InitialPollingDelayInMinutes')]",
@@ -878,7 +870,7 @@
                 "PunctuationMode": "[parameters('PunctuationMode')]",
                 "RetryLimit": "[variables('RetryLimit')]",
                 "StartTranscriptionServiceBusConnectionString": "[listKeys(variables('AuthRuleCT'),'2015-08-01').primaryConnectionString]",
-                "WEBSITE_RUN_FROM_PACKAGE": "[if(variables('timerBasedExecution'),'https://ingestionclientstorage.blob.core.windows.net/binaries/11102021.0/StartTranscriptionByTimer.zip','https://ingestionclientstorage.blob.core.windows.net/binaries/11102021.0/StartTranscriptionByServiceBus.zip')]"
+                "WEBSITE_RUN_FROM_PACKAGE": "[if(variables('timerBasedExecution'), variables('StartTranscriptionByTimerBinary'), variables('StartTranscriptionByServiceBusBinary'))]"
             }
         },
         {
@@ -931,7 +923,7 @@
                 "ErrorFilesOutputContainer": "[variables('ErrorFilesOutputContainer')]",
                 "ErrorReportOutputContainer": "[variables('ErrorReportOutputContainer')]",
                 "FetchTranscriptionServiceBusConnectionString": "[listKeys(variables('AuthRuleFT'),'2015-08-01').primaryConnectionString]",
-                "FUNCTIONS_EXTENSION_VERSION": "~3",
+                "FUNCTIONS_EXTENSION_VERSION": "~4",
                 "FUNCTIONS_WORKER_RUNTIME": "dotnet",
                 "HtmlResultOutputContainer": "[variables('HtmlResultOutputContainer')]",
                 "InitialPollingDelayInMinutes": "[variables('InitialPollingDelayInMinutes')]",
@@ -942,22 +934,26 @@
                 "TextAnalyticsKey": "[concat('@Microsoft.KeyVault(VaultName=', variables('KeyVaultName'), ';SecretName=', variables('TextAnalyticsKeySecretName'), ')')]",
                 "TextAnalyticsRegion": "[parameters('TextAnalyticsRegion')]",
                 "UseSqlDatabase": "[variables('UseSqlDatabase')]",
-                "WEBSITE_RUN_FROM_PACKAGE": "https://ingestionclientstorage.blob.core.windows.net/binaries/11102021.0/FetchTranscription.zip",
+                "WEBSITE_RUN_FROM_PACKAGE": "[variables('FetchTranscriptionBinary')]",
                 "CreateConsolidatedOutputFiles": "[variables('CreateConsolidatedOutputFiles')]",
                 "ConsolidatedFilesOutputContainer": "[variables('ConsolidatedFilesOutputContainer')]",
                 "CreateAudioProcessedContainer": "[variables('CreateAudioProcessedContainer')]",
                 "AudioProcessedContainer": "[variables('AudioProcessedContainer')]",
-                "PiiCategories": "[variables('PiiCategories')]"
+                "PiiCategories": "[variables('PiiCategories')]",
+                "ConversationPiiCategories": "[variables('ConversationPiiCategories')]",
+                "ConversationPiiInferenceSource": "[variables('ConversationPiiInferenceSource')]",
+                "ConversationPiiSetting":"[variables('ConversationPiiRedaction')]",
+                "ConversationSummarizationOptions":"[variables('ConversationSummarizationOptions')]"
             }
         }
     ],
     "outputs": {
         "StartTranscriptionFunctionId": {
-            "type": "string",
+            "type": "String",
             "value": "[variables('StartTranscriptionFunctionId')]"
         },
         "FetchTranscriptionFunctionId": {
-            "type": "string",
+            "type": "String",
             "value": "[variables('FetchTranscriptionFunctionId')]"
         }
     }
