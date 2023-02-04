@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 //import axios from 'axios';
-import { getGPT3ParseExtractInfo, getGPT3PromptCompletion, getGPT3Summarize, getKeyPhrases, getTokenOrRefresh } from './token_util.js';
+import { getGPT3ParseExtractInfo, getGPT3CustomPromptCompletion, getGPT3Summarize, getKeyPhrases, getTokenOrRefresh } from './token_util.js';
 import { ResultReason } from 'microsoft-cognitiveservices-speech-sdk';
 import './App.css';
+//import { Input } from '@material-ui/core';
 
 const speechsdk = require('microsoft-cognitiveservices-speech-sdk')
 
@@ -17,9 +18,10 @@ export default class App extends Component {
 
       this.state = {     
         displayText: 'READY to start call simulation',
-        displayNLPOutput: 'NLP Output: ...',
-        gptSummaryText: 'GPT-3 Summary: ...',
-        gptExtractedInfo: 'GPT-3 extracted info: ...'
+        displayNLPOutput: 'NLP & PII Output...',
+        gptSummaryText: 'GPT-3 Generated Summary:...',
+        gptExtractedInfo: 'GPT-3 Extracted Custom Business Information...',
+        gptCustomPrompt: 'GPT-3 Custom Prompt Output...'
       };
   }
 
@@ -62,8 +64,6 @@ export default class App extends Component {
       let resultText = "";
       let nlpText = " ";
       recognizer.sessionStarted = (s, e) => {
-          //resultText = "Session ID: " + e.sessionId;
-          //resultText = "START conversation: ";
           //this.setState({displayText: resultText});
       };
 
@@ -108,10 +108,11 @@ export default class App extends Component {
       recognizer.startContinuousRecognitionAsync();
   }
 
-  async gptPromptCompetion(inputText){
-    const gptObj = await getGPT3PromptCompletion(inputText);
+  async gptCustomPromptCompetion(inputText){
+    var customPromptText = document.getElementById("customPromptTextarea").value;
+    const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
     const gptText = gptObj.data.text;
-    this.setState({ gptExtractedInfo: gptText.replace("\n\n", "") });
+    this.setState({ gptCustomPrompt: gptText.replace("\n\n", "") });
   }
 
   async gptSummarizeText(inputText){    
@@ -161,8 +162,7 @@ export default class App extends Component {
                 <div className="col-6 nlpoutput-display rounded" style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 360}}>                      
                     <code>{this.state.displayNLPOutput}</code>
                 </div>
-            </div>   
-              
+            </div>    
               
               <div style={{ color: 'white', fontSize: 18, display: 'flex', justifyContent:'center' }}>Use the power of Azure OpenAI GPT-3 models to gain valuable insights from conversations in near real-time</div>
               <div class="row text-white">
@@ -192,6 +192,24 @@ export default class App extends Component {
                       <code>{this.state.gptExtractedInfo}</code>
                   </div>
               </div>   
+
+              <div style={{ color: 'white', fontSize: 20, display: 'flex', justifyContent:'center' }}>Prompt Engineering with Azure OpenAI GPT-3 models</div>
+              <div class="row text-dark">             
+                <div class="col-6">
+                    <label for="customPromptTextarea" class="form-label"style={{"color":"white"}}>Enter custom text prompt in below text area:       - </label>
+                    <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptCustomPromptCompetion(this.state.displayText)}>Try Custom Prompt</button>
+                    <textarea class="form-control" id="customPromptTextarea" rows="10" style={{"background-color":"black", "color":"white", "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll'}}>
+                    Extract the following from the conversation:        
+                    1. What is customer's name?
+                    2. Which car was involved in the accident?
+                    3. What are the action items and follow-ups?
+                    </textarea>
+                </div>
+                <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
+                    <code>{this.state.gptCustomPrompt}</code>
+                </div>                     
+              </div>
+
           </Container>     
       );
   }

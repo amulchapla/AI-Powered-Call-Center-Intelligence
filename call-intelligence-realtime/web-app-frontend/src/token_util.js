@@ -38,15 +38,15 @@ export async function getKeyPhrases(requestText) {
     }
 }
 
-export async function getGPT3PromptCompletion(requestText) {      
+export async function getGPT3CustomPromptCompletion(requestText, customPrompt) {      
     try{
         //GPT-3 prompt completion
-        const data = {transcript: requestText};
+        const data = {transcript: requestText, customPrompt: customPrompt};
         const headers = { 'Content-Type': 'application/json' };
-        const res = await axios.post('/openai/gpt/complete', data, {headers});                
+        const res = await axios.post('/openai/gpt/customPrompt', data, {headers});                
         return res;
     } catch (err) {       
-        return {data: "No data from GPT competion"};
+        return {data: "No data from GPT custom prompt competion"};
     }
 }
 

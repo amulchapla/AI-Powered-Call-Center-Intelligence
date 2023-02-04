@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts --openssl-legacy-provider build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -46,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://callcenteraiappbackendshared.azurewebsites.net"
+  "proxy": "http://localhost:8080"
 }

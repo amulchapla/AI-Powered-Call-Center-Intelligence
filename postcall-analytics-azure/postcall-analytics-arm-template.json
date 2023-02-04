@@ -478,7 +478,7 @@
             "name": "[variables('StorageAccountName')]",
             "location": "[resourceGroup().location]",
             "sku": {
-                "name": "Standard_GRS",
+                "name": "Standard_LRS",
                 "tier": "Standard"
             },
             "kind": "StorageV2",

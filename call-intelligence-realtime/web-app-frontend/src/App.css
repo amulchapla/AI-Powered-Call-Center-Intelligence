@@ -5,7 +5,7 @@
 
 .app-container {
   color: #f4eeee;
-  height: 100vh;
+  height: 180vh;
   background-color: #272727;
   background-image: url(images/OIP2.jpg); 
 }
@@ -30,14 +30,14 @@
   color: white;
   background-color: #171c1c;
   white-space: break-spaces;
-  height: 700px;
+  height: 1700px;
 }
 
 .nlpoutput-display {
   color: white;
   background-color: #171c1c;
   white-space: break-spaces;
-  height: 700px;
+  height: 1700px;
 }
 
 .fas, .fa {

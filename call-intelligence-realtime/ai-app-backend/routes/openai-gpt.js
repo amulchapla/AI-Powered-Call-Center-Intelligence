@@ -30,13 +30,15 @@ router.get('/gpt/sayhello', async (req, res) => {
     res.send('Hello World from the OpenAI GPT backend! ' + currentDateTime)
 });
 
-router.post('/gpt/complete', async (req, res) => {
+router.post('/gpt/customPrompt', async (req, res) => {
     const requestText = JSON.stringify(req.body.transcript);
+    const requestCustomPrompt = req.body.customPrompt;
+    const customParsePrompt = requestText + "\n\n" + requestCustomPrompt;
     const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;        
     const headers = {'Content-Type': 'application/json', 'api-key': openaiKey};
     const params = {
-        "prompt": requestText,
-        "max_tokens": openaiMaxTokens,
+        "prompt": customParsePrompt,
+        "max_tokens": 1000,
         "temperature": openaiTemperature,
         "top_p": openaiTopP,
         "frequency_penalty": openaiFrequencyPenalty,
@@ -66,8 +68,6 @@ router.post('/gpt/summarize', async (req, res) => {
     const summaryResponse = await axios.post(url, params, {headers: headers});
     res.send(summaryResponse.data.choices[0]);    
 });
-
-
 
 router.post('/gpt/parseExtractInfo', async (req, res) => {
     const requestText = JSON.stringify(req.body.transcript);
