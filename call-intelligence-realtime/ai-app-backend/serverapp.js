@@ -10,9 +10,9 @@ const azurelanguageRouter = require('./routes/azureai-language')
 // get config
 const config = require('./config.json')
 const port = config[0].web_port
-const speechKey = config[0].subscription_key;
-const speechRegion = config[0].region;
-const endpoint_id = config[0].endpoint_id;
+const speechKey = config[0].speech_subscription_key;
+const speechRegion = config[0].speech_region;
+const endpoint_id = config[0].speech_custom_endpoint_id_optional;
 
 app.use(express.json());
 app.use('/openai', openaiRouter);

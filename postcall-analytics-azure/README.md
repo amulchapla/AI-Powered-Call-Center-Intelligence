@@ -6,8 +6,6 @@ Think of this tool as an automated & scalable transcription solution for all aud
 
 We created an ingestion layer (a transcription client) that will help you set up a full blown, scalable and secure transcription pipeline. Using an ARM template deployment, all the resources necessary to seamlessly process your audio files are configured and turned on.
 
-Using an ARM template deployment, all the resources necessary to seamlessly process your audio files are configured and turned on.
-
 # Architecture
 
 The Ingestion Client is optimized to use the capabilities of the Azure Speech infrastructure. It uses Azure resources to orchestrate transcription requests to the Azure Speech service using audio files as they appear in your dedicated storage containers. You can also set up additional processing beyond transcription, such as sentiment analysis and other text analytics.

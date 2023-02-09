@@ -146,9 +146,9 @@ export default class App extends Component {
                             <option value="5">General</option>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <button type="button" class="btn btn-dark" onClick={() => this.sttFromMic()}>Click HERE and START Talking</button>
-                    </div>{'Note: This conversation will be recorded for demo purpose.'}           
+                    </div>{'This conversation will be recorded in YOUR Azure subscription if you enable it.'}           
                 </form>
                 <p> </p>
             </div>
@@ -157,10 +157,10 @@ export default class App extends Component {
             
             <div className="row"> 
                 <div className="col-6 output-display" style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll', height: 360}}>
-                    <code>{this.state.displayText}</code>
+                    <code style={{"color":"white"}}>{this.state.displayText}</code>
                 </div>
                 <div className="col-6 nlpoutput-display rounded" style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 360}}>                      
-                    <code>{this.state.displayNLPOutput}</code>
+                    <code style={{"color":"white"}}>{this.state.displayNLPOutput}</code>
                 </div>
             </div>    
               
@@ -186,10 +186,10 @@ export default class App extends Component {
               
               <div className="row"> 
                   <div className="col-6 output-display rounded" style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>
-                        <code>{this.state.gptSummaryText}</code>
+                        <code style={{"color":"white"}}>{this.state.gptSummaryText}</code>
                   </div>
                   <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
-                      <code>{this.state.gptExtractedInfo}</code>
+                      <code style={{"color":"white"}}>{this.state.gptExtractedInfo}</code>
                   </div>
               </div>   
 
@@ -206,7 +206,7 @@ export default class App extends Component {
                     </textarea>
                 </div>
                 <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
-                    <code>{this.state.gptCustomPrompt}</code>
+                    <code style={{"color":"white"}}>{this.state.gptCustomPrompt}</code>
                 </div>                     
               </div>
 

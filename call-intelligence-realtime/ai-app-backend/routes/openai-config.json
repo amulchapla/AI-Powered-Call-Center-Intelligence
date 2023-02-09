@@ -2,8 +2,8 @@
     {
         "openai_api_type": "azure",
         "openai_api_version": "2022-12-01",
-        "openai_max_tokens": 120,
-        "openai_temperature": 0.7,
+        "openai_max_tokens": 1920,
+        "openai_temperature": 0.1,
         "openai_top_p": 1,
         "openai_frequency_penalty": 0,
         "openai_presence_penalty": 0,

@@ -1,5 +1,11 @@
 # Real-time Call Intelligence using Azure AI
 
+This solution component provides real-time transcription and analysis of a call to improve the customer experience by providing insights. This solution can help with agent-assist and virtual agents use cases. Key technical components of this part of the accelerator are:
+    * Transcription of live audio stream using Azure Speech Service
+    * Entity extraction + PII detection and redaction using Azure Language Service
+    * Conversation summarization using Azure OpenAI Service
+    * Extract business insights & conversation details using Azure OpenAI Service
+
 This sample simulates call center intelligence in real-time using Azure AI services. It uses Azure Speech SDK to capture audio from a microphone and convert it to text. The text is then sent to Azure Language service to extract entities, key phrases, and detect+ redact PII information. The data is then displayed in a web page in real-time using streaming pattern.
 
 Once the call is completed, the transcript is sent to Azure OpenAI service to summarize the call. Azure OpenAI service is also used to parse raw call transcript and extract key business information using domain specific prompts. The data is then displayed in a web page UI.
@@ -23,18 +29,18 @@ This sample uses Express.js backend framework which allows you to make http call
 2. Create a [Azure Speech resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices) in the Azure portal.
 3. Create a [Azure Language resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics) in the Azure portal.
 4. Optionally, create a [Azure OpenAI resource](https://portal.azure.com/?microsoft_azure_marketplace_ItemHideKey=microsoft_openai_tip#create/Microsoft.CognitiveServicesOpenAI?WT.mc_id=academic-84928-cacaste) in the Azure portal. Note: OpenAI is currently in preview and is not available in all regions. You can check the [OpenAI documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/openai/overview?WT.mc_id=academic-84928-cacaste) for more information.
-5. Ensure you have [Node.js](https://nodejs.org/en/download/) installed on your laptop to run the frontend and backend apps on local machine.
+5. Install [Node.js](https://nodejs.org/en/download/) on your laptop to run the frontend and backend apps on your local machine.
 
-## How to run the app
+## How to Setup and Run this real-time solution component
 
 1. Clone this repo. This repo has two apps as shown in the architecture diagram above: 
     * web-app-frontend folder is for the "ReactJS Frontend" web UI component and
     * ai-app-backend folder is for the "ExpressJS Backend" API backend component 
 
 
-2. **Prepare and run the ai-app-backend Express.js backend**
+2. **Prepare and run the backend app (in folder ai-app-backend)**
     -	Go to ai-app-backend directory and run `npm install -all` to install dependencies.
-    -	Update the “config.json” file with your Azure Speech service key (subscription_key property) and Azure region (region property). Azure Region value examples: “eastus2”, “westus”
+    -	Update the “config.json” file with your Azure Speech service key (speech_subscription_key property) and Azure region (speech_region property). Azure Region value examples: “eastus2”, “westus”
     -	Update the “config.json” file with your Azure Language service key (text_analytics_key property) and endpoint (text_analytics_endpoint property). 
     -	Update the “config.json” file with your Azure OpenAI service key (openai_key property), endpoint (openai_endpoint property) and deployment name (openai_deployment_name property).
     -	Start backend AI API app by running `‘npm start’`
@@ -44,7 +50,7 @@ This sample uses Express.js backend framework which allows you to make http call
     -	If you have deployed ai-app-backend app to Azure App Service (as per instructions below) then you can verify using URLs from browser as below:
         *	`https://<<your backend Azure App service name>>/api/sayhello`
         *	`https://<<your backend Azure App service name>>/api/get-speech-token`
-3.	**Prepare and run the web-app-frontend (for web UI)**
+3.	**Prepare and run the frontend app for web UI (in folder web-app-frontend)**
     +	Go to web-app-frontend directory and run `npm install -all` to install dependencies.
     +	Update “package.json” as following. Set value of “proxy” depending on where your Express.js backend is running. 
     +   Start frontend web app by running `‘npm start’`
@@ -77,6 +83,26 @@ You can deploy your Node.js app using VS Code and the Azure App Service extensio
 
 | Issues/Errors | Resolutions |
 | :-------------| :-----------|
+| **Frontend app initialization error** You might get SSL related errors when starting the frontend web app depending on the node version that's installed on your laptop. Error could be ERR_OSSL_EVP_UNSUPPORTED or similar. | In the web-app-frontend folder, in the package.json, try to change this:
+```json
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+```
+To
+
+```json
+"scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+``` |
+
 | **Invalid Host Header** error in the browser when running the React Front end | Add DANGEROUSLY_DISABLE_HOST_CHECK=true in the .env for the front end. This solution is not recommended for production deployment. This is to enable a quick demonstration of real-time speech streaming capability using the web browser. |
 |Express.js backend API not accessible when deployed to Azure app service. | Verify that the port used by the express backend (in serverapp.js) is using value <code>‘process.env.WEB_PORT &#124;&#124; 8080’ </code>|
 

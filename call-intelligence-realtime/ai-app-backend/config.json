@@ -1,14 +1,14 @@
 [
     {
         "name": "speech",
-        "subscription_key": "YOUR_KEY_HERE",
-        "region": "eastus",
-        "endpoint_id": "036d9808-81bd-40d4-bf82-b46e131da519",
-        "text_analytics_key": "YOUR_KEY_HERE",
-        "text_analytics_endpoint": "https://azurelanguageamc2023.cognitiveservices.azure.com/",
-        "openai_endpoint": "https://amcazureopenaitest.openai.azure.com/",
-        "openai_key": "YOUR_KEY_HERE",
-        "openai_deployment_name": "davincitest_endpoint1",
+        "speech_subscription_key": "SPEECH_KEY_FROM_AZURE_PORTAL",
+        "speech_region": "SPEECH_REGION_FROM_AZURE_PORTAL",
+        "speech_custom_endpoint_id_optional": "OPTIONAL_FROM_SPEECH_STUDIO",
+        "text_analytics_key": "LANGUAGE_KEY_FROM_AZURE_PORTAL",
+        "text_analytics_endpoint": "LANGUAGE_ENDPOINT_FROM_AZURE_PORTAL",
+        "openai_endpoint": "OPENAI_ENDPOINT_FROM_OPENAI_STUDIO",
+        "openai_key": "OPENAI_KEY_FROM_AZURE_PORTAL",
+        "openai_deployment_name": "OPENAI_DEPLOYMET_FROM_OPENAI_STUDIO",
         "web_port": "8080"
     }
 ]

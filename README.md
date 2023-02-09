@@ -2,7 +2,7 @@
 
 The Call Center Intelligence Accelerator drives huge cost saving in call center operations while improving call center efficiency & customer satisfaction.
 
-It uses Azure Speech, Azure Language and Azure OpenAI (GPT-3) services to analyze call center transcrips, extract and redact conversation personally identifiable information (PII), summarize the transcription, and provides rich business insights that could be used in real-time. It delivers deeper business insights for managers and enables them to evaluate call center performance far more efficiently and effectively in real-time and batch scenarios. Data insight on customer sentiment, topic analysis, and other valuable call attributes are served up in a user-friendly visual dashboard in Power BI.
+It uses Azure Speech, Azure Language and Azure OpenAI (GPT-3) services to analyze call center transcrips, extract and redact personally identifiable information (PII), summarize the transcription, and provides rich business insights that could be used in real-time. It delivers deeper business insights for managers and enables them to evaluate call center performance far more efficiently and effectively in real-time and batch scenarios. Data insight on customer sentiment, topic analysis, and other valuable call attributes are served up in a user-friendly visual dashboard in Power BI.
 
 The diagram below depicts key business outcomes that this solution could help accelerate
 <img src="common/images/callcenteraibizview.png" align="center" width="535" height="479"/>
@@ -10,8 +10,17 @@ The diagram below depicts key business outcomes that this solution could help ac
 This is a sample accelerator for Call Center Intelligence powered by Azure AI (including new Azure OpenAI GPT-3). It shows how Azure AI services could be used both in real-time and post-call analytics scenarios for an Intelligent Contact Center.
 
 This solution accelerator has two main components:
-1. `Real-time Intelligence` component: Real-time transcription and analysis of a call to improve the customer experience by providing insights and suggest actions to agents. This can help with agent-assist and virtual agents use cases.
-2. `Post-call Analytics` component: Post-call analysis to create insights into customer conversations to improve understanding and support continuous improvement of call handling, optimization of quality assurance and compliance control as well as other insight driven optimizations.
+1. `Real-time Intelligence` component: Real-time transcription and analysis of a call to improve the customer experience by providing insights and suggest actions to agents. This can help with agent-assist and virtual agents use cases. Key technical components of this part of the accelerator are:
+    * Transcription of live audio stream using Azure Speech Service
+    * Entity extraction + PII detection and redaction using Azure Language Service
+    * Conversation summarization using Azure OpenAI Service
+    * Extract business insights & conversation details using Azure OpenAI Service
+
+2. `Post-call Analytics` component: Post-call analysis to create insights into customer conversations to improve understanding and support continuous improvement of call handling, optimization of quality assurance and compliance control as well as other insight driven optimizations. Key technical components of this part of the accelerator are:
+    * Batch speech-to-text using Azure Speech: Transcribe large amounts of audio files asynchronously including speaker diarization and is typically used in post-call analytics scenarios. Diarization is the process of recognizing and separating speakers in mono channel audio data.    
+    * Personally Identifiable Information (PII) extraction and redaction: Identify, categorize, and redact sensitive information in conversation transcription.
+    * Sentiment analysis and opinion mining: Analyze transcriptions and associate positive, neutral, or negative sentiment at the utterance and conversation-level.
+    * Visualize insights using Power BI
 
 This solution accelerator is modular and above two parts can be used independently of each other, if needed. i.e Real-time Intelligence and Post-call Analytics components can be used independently.
 
