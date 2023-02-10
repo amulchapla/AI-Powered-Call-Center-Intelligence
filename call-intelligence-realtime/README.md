@@ -60,7 +60,7 @@ This sample uses Express.js backend framework which allows you to make http call
     +   On the web UI, select a business domain that alings best with your conversation scenario from the "Choose Conversation Scenario" dropbox.
     +   Click on the "Click HERE and START Talking" button on the web page and start talking. You should see transcription displayed on the web page in real-time (an example shown below).
 
-    <img src="common/images/sampleoutputrealtimetranscription.PNG " align="center" />
+    <img src="common/images/sampleoutputaiintelligence.PNG " align="center" />
 
 
     +	If you have also deployed the frontend ReactJS to Azure App Service then use the deployed app service URL which you can find on Azure portal for your App Service. Example: `https://myweb-app-frontend.azurewebsites.net`
@@ -81,9 +81,16 @@ You can deploy your Node.js app using VS Code and the Azure App Service extensio
 
 ## Issues and resolutions
 
-| Issues/Errors | Resolutions |
-| :-------------| :-----------|
-| **Frontend app initialization error** You might get SSL related errors when starting the frontend web app depending on the node version that's installed on your laptop. Error could be ERR_OSSL_EVP_UNSUPPORTED or similar. | In the web-app-frontend folder, in the package.json, try to change this:
+<table>
+<tr>
+<td> Issue/Error </td> <td> Resolutions </td>
+</tr>
+<tr>
+<td> **Frontend app initialization error** You might get SSL related errors when starting the frontend web app depending on the node version that's installed on your laptop. Error could be ERR_OSSL_EVP_UNSUPPORTED or similar. </td>
+<td>
+
+
+In the web-app-frontend folder, in the package.json, try to change this:
 ```json
 "scripts": {
     "start": "react-scripts start",
@@ -102,10 +109,20 @@ To
     "eject": "react-scripts eject"
   },
 ``` 
-That might fix the issue|
+That might fix the issue
 
-| **Invalid Host Header** error in the browser when running the React Front end | Add DANGEROUSLY_DISABLE_HOST_CHECK=true in the .env for the front end. This solution is not recommended for production deployment. This is to enable a quick demonstration of real-time speech streaming capability using the web browser. |
-|Express.js backend API not accessible when deployed to Azure app service. | Verify that the port used by the express backend (in serverapp.js) is using value <code>‘process.env.WEB_PORT &#124;&#124; 8080’ </code>|
+
+</td>
+</tr>
+<tr>
+<td> "Invalid Host Header" error in the browser when running the web Frontend </td>
+<td>
+
+Add DANGEROUSLY_DISABLE_HOST_CHECK=true in the .env for the front end. This solution is not recommended for production deployment. This is to enable a quick demonstration of real-time speech streaming capability using the web browser. 
+
+</td>
+</tr>
+</table>
 
 
 ## Change recognition language
