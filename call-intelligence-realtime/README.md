@@ -101,7 +101,8 @@ To
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-``` |
+``` 
+That might fix the issue|
 
 | **Invalid Host Header** error in the browser when running the React Front end | Add DANGEROUSLY_DISABLE_HOST_CHECK=true in the .env for the front end. This solution is not recommended for production deployment. This is to enable a quick demonstration of real-time speech streaming capability using the web browser. |
 |Express.js backend API not accessible when deployed to Azure app service. | Verify that the port used by the express backend (in serverapp.js) is using value <code>‘process.env.WEB_PORT &#124;&#124; 8080’ </code>|
