@@ -99,7 +99,9 @@ you could copy/paste the template in the editor.
 Saving the template will result in the screen below. You will need to fill in the form provided. It is
 important that all the information is correct. Let us look at the form and go through each field.
 
-![form template](../common/images/image011.png)
+**FILL OUT ALL REQUIRED FIELD HIGHLIGHTED IN THE RED BOX - SQL Admin username cannot be 'admin', use sqladmin or similar** 
+
+![form template](../common/images/postcall-armdeploy.png)
 
 > **_NOTE:_** Use short descriptive names in the form for your resource group. Long resource group names can result in deployment error.
 

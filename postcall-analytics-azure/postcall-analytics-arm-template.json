@@ -65,7 +65,7 @@
             }
         },
         "AzureSpeechServicesRegion": {
-            "defaultValue": "westus",
+            "defaultValue": "eastus",
             "type": "String",
             "allowedValues": [
                 "centralus",
@@ -144,7 +144,6 @@
             }
         },
         "TextAnalyticsKey": {
-            "defaultValue": "",
             "type": "SecureString",
             "metadata": {
                 "description": "The key for the Text Analytics subscription."
@@ -206,14 +205,13 @@
         },
         "SqlAdministratorLogin": {
             "type": "String",
-            "defaultValue": "",
+            "defaultValue": "sqladmin",
             "metadata": {
                 "description": "The administrator username of the SQL Server, which is used to gain insights of the audio with the provided PowerBI scripts. If it is left empty, no SQL server/database will be created."
             }
         },
         "SqlAdministratorLoginPassword": {
             "type": "securestring",
-            "defaultValue": "",
             "metadata": {
                 "description": "The administrator password of the SQL Server. If it is left empty, no SQL server/database will be created."
             }
