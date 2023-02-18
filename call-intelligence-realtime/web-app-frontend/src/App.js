@@ -7,6 +7,7 @@ import './App.css';
 //import { Input } from '@material-ui/core';
 
 const speechsdk = require('microsoft-cognitiveservices-speech-sdk')
+var recognizer;
 
 export default class App extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ export default class App extends Component {
         displayNLPOutput: 'NLP & PII Output...',
         gptSummaryText: 'GPT-3 Generated Summary:...',
         gptExtractedInfo: 'GPT-3 Extracted Custom Business Information...',
-        gptCustomPrompt: 'GPT-3 Custom Prompt Output...'
+        gptCustomPrompt: 'GPT-3 Custom Prompt Output...',
+        gptCustomPrompt2: 'GPT-3 Custom Prompt Output...'
       };
   }
 
@@ -55,7 +57,7 @@ export default class App extends Component {
       //speechConfig.endpointId = 'd26026b7-aaa0-40bf-84e7-35054451a3f4';
 
       const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
-      const recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
+      recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
 
       this.setState({
           displayText: 'Speak into your microphone to start conversation...' 
@@ -106,6 +108,7 @@ export default class App extends Component {
         }
     };
       recognizer.startContinuousRecognitionAsync();
+      
   }
 
   async gptCustomPromptCompetion(inputText){
@@ -115,10 +118,22 @@ export default class App extends Component {
     this.setState({ gptCustomPrompt: gptText.replace("\n\n", "") });
   }
 
+  async gptCustomPromptCompetion2(inputText){
+    var customPromptText = document.getElementById("customPromptTextarea2").value;
+    const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
+    const gptText = gptObj.data.text;
+    this.setState({ gptCustomPrompt2: gptText.replace("\n\n", "") });
+  }
+
   async gptSummarizeText(inputText){    
     const gptObj = await getGPT3Summarize(inputText); 
     const gptText = gptObj.data.text;
+    recognizer.stopContinuousRecognitionAsync();
     this.setState({ gptSummaryText: gptText.replace("\n\n", "") });
+  }
+
+  async stopRecording(){        
+    recognizer.stopContinuousRecognitionAsync();    
   }
 
   async gptParseExtractInfo(inputText){    
@@ -147,7 +162,7 @@ export default class App extends Component {
                         </select>
                     </div>
                     <div class="col-3">
-                        <button type="button" class="btn btn-dark" onClick={() => this.sttFromMic()}>Click HERE and START Talking</button>
+                        <button type="button" class="btn btn-success" onClick={() => this.sttFromMic()}>Click & START Conversation</button>
                     </div>{'This conversation will be recorded in YOUR Azure subscription if you enable it.'}           
                 </form>
                 <p> </p>
@@ -170,7 +185,8 @@ export default class App extends Component {
                     <div class="card text-center text-dark bg-info">
                     <div class="card-body">
                         <h5 class="card-title">Conversation Summary using GPT-3 (Azure OpenAI)</h5>                     
-                        <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptSummarizeText(this.state.displayText)}>Generate Conversation Summary</button>
+                        <button type="button" class="btn btn-danger btn-sm" onClick={() => this.stopRecording()}>END Conversation</button>
+                         --- <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptSummarizeText(this.state.displayText)}>Generate Conversation Summary</button>
                     </div>
                     </div>
                 </div>
@@ -199,14 +215,24 @@ export default class App extends Component {
                     <label for="customPromptTextarea" class="form-label"style={{"color":"white"}}>Enter custom text prompt in below text area:       - </label>
                     <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptCustomPromptCompetion(this.state.displayText)}>Try Custom Prompt</button>
                     <textarea class="form-control" id="customPromptTextarea" rows="10" style={{"background-color":"black", "color":"white", "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll'}}>
-                    Extract the following from the conversation:        
-                    1. What is customer's name?
-                    2. Which car was involved in the accident?
-                    3. What are the action items and follow-ups?
+                    Type your custom prompt here
                     </textarea>
                 </div>
                 <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
                     <code style={{"color":"white"}}>{this.state.gptCustomPrompt}</code>
+                </div>                     
+              </div>
+                <p> </p>
+              <div class="row text-dark">             
+                <div class="col-6">
+                    <label for="customPromptTextarea" class="form-label"style={{"color":"white"}}>Enter custom text prompt in below text area:       - </label>
+                    <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptCustomPromptCompetion2(this.state.displayText)}>Try Custom Prompt</button>
+                    <textarea class="form-control" id="customPromptTextarea2" rows="10" style={{"background-color":"black", "color":"white", "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll'}}>
+                    What do you want GPT-3 to do?
+                    </textarea>
+                </div>
+                <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
+                    <code style={{"color":"white"}}>{this.state.gptCustomPrompt2}</code>
                 </div>                     
               </div>
 
