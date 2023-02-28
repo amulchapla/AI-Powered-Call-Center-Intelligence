@@ -6,8 +6,19 @@
 .app-container {
   color: #f4eeee;
   height: 230vh;
-  background-color: #272727;
-  background-image: url(images/OIP2.jpg); 
+  background-color: #b9bbbc;
+}
+
+.nlpoutput-display {
+  color: white;
+  background-color: #fbfcfc;
+  font-size: 18px;
+  border-color: #919393;
+  border-width: 2px;
+  border-style: outset; 
+  white-space: break-spaces;
+  overflow-y: scroll;
+  height: 1700px;
 }
 
 .fa-microphone {
@@ -33,12 +44,7 @@
   height: 1700px;
 }
 
-.nlpoutput-display {
-  color: white;
-  background-color: #171c1c;
-  white-space: break-spaces;
-  height: 1700px;
-}
+
 
 .fas, .fa {
   cursor: pointer;

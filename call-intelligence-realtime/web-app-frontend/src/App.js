@@ -19,11 +19,11 @@ export default class App extends Component {
 
       this.state = {     
         displayText: 'READY to start call simulation',
-        displayNLPOutput: 'NLP & PII Output...',
-        gptSummaryText: 'GPT-3 Generated Summary:...',
-        gptExtractedInfo: 'GPT-3 Extracted Custom Business Information...',
-        gptCustomPrompt: 'GPT-3 Custom Prompt Output...',
-        gptCustomPrompt2: 'GPT-3 Custom Prompt Output...'
+        displayNLPOutput: '',
+        gptSummaryText: '',
+        gptExtractedInfo: '',
+        gptCustomPrompt: '',
+        gptCustomPrompt2: ''
       };
   }
 
@@ -60,7 +60,7 @@ export default class App extends Component {
       recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
 
       this.setState({
-          displayText: 'Speak into your microphone to start conversation...' 
+          displayText: 'Speak to your microphone or copy/paste conversation transcript here' 
       });      
 
       let resultText = "";
@@ -76,7 +76,10 @@ export default class App extends Component {
             resultText += `\n${e.result.text}`;    
             this.setState({
                 displayText: resultText
-            });      
+            }); 
+            
+            //Display continuous transcript in the text area
+           document.getElementById("transcriptTextarea").value = resultText;
             
             //Perform continuous NLP
             const nlpObj = await getKeyPhrases(e.result.text);              
@@ -113,22 +116,28 @@ export default class App extends Component {
 
   async gptCustomPromptCompetion(inputText){
     var customPromptText = document.getElementById("customPromptTextarea").value;
-    const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
+    var transcriptInputForPmt = document.getElementById("transcriptTextarea").value;
+    //const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
+    const gptObj = await getGPT3CustomPromptCompletion(transcriptInputForPmt, customPromptText);
     const gptText = gptObj.data.text;
     this.setState({ gptCustomPrompt: gptText.replace("\n\n", "") });
   }
 
   async gptCustomPromptCompetion2(inputText){
     var customPromptText = document.getElementById("customPromptTextarea2").value;
-    const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
+    var transcriptInputForPmt2 = document.getElementById("transcriptTextarea").value;
+    //const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
+    const gptObj = await getGPT3CustomPromptCompletion(transcriptInputForPmt2, customPromptText);
     const gptText = gptObj.data.text;
     this.setState({ gptCustomPrompt2: gptText.replace("\n\n", "") });
   }
 
   async gptSummarizeText(inputText){    
-    const gptObj = await getGPT3Summarize(inputText); 
+    var transcriptInputForSumr = document.getElementById("transcriptTextarea").value;
+    //const gptObj = await getGPT3Summarize(inputText); 
+    const gptObj = await getGPT3Summarize(transcriptInputForSumr); 
     const gptText = gptObj.data.text;
-    recognizer.stopContinuousRecognitionAsync();
+    //recognizer.stopContinuousRecognitionAsync();
     this.setState({ gptSummaryText: gptText.replace("\n\n", "") });
   }
 
@@ -139,7 +148,9 @@ export default class App extends Component {
   async gptParseExtractInfo(inputText){    
     var selectConvScenario = document.getElementById("formSelectConvScenario");
     var convScenario = selectConvScenario.options[selectConvScenario.selectedIndex].text;
-    const gptObj = await getGPT3ParseExtractInfo(inputText, convScenario); 
+    var transcriptInputToExtract = document.getElementById("transcriptTextarea").value;
+    const gptObj = await getGPT3ParseExtractInfo(transcriptInputToExtract, convScenario); 
+    //const gptObj = await getGPT3ParseExtractInfo(inputText, convScenario); 
     const gptText = gptObj.data.text;
     this.setState({ gptExtractedInfo: gptText.replace("\n\n", "") });
   }
@@ -147,8 +158,8 @@ export default class App extends Component {
   render() {
       return (
           <Container className="app-container">
-             <div class="card text-white bg-primary mb-3 text-center" >
-                <h3 class="card-header">Azure AI-powered Call Center Intelligence</h3>
+             <div class="card text-white bg-dark mb-3 text-center" >
+                <h3 class="card-header">Azure AI + Azure OpenAI - powered Conversation Intelligence</h3>
                 <p> </p>
                 <form class="row row-cols-lg-auto g-3 align-items-center text-white">     
                     <div class="col-3">
@@ -161,78 +172,95 @@ export default class App extends Component {
                             <option value="5">General</option>
                         </select>
                     </div>
-                    <div class="col-3">
-                        <button type="button" class="btn btn-success" onClick={() => this.sttFromMic()}>Click & START Conversation</button>
-                    </div>{'This conversation will be recorded in YOUR Azure subscription if you enable it.'}           
+                    <div class="col-4">
+                        <button type="button" class="btn btn-success btn-sm" onClick={() => this.sttFromMic()}>START Conversation</button> &emsp; &ensp;
+                        <button type="button" class="btn btn-outline-danger btn-sm" onClick={() => this.stopRecording()}>END Conversation</button>
+                    </div>   
+                    <div style={{ color: 'white', fontSize: 13, display: 'flex', justifyContent:'center', alignItems:'center' }}>This conversation will be recorded in YOUR Azure subscription if you enable it.</div>     
                 </form>
                 <p> </p>
             </div>
-
-            <div style={{ color: 'white', fontSize: 18, display: 'flex', justifyContent:'center', alignItems:'center' }}>-      Real-time Transcription (Azure Speech) -------------------------------------------------  AI-powered Call Insights ------</div>
             
             <div className="row"> 
-                <div className="col-6 output-display" style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll', height: 360}}>
-                    <code style={{"color":"white"}}>{this.state.displayText}</code>
+                <div class="col-6">
+                <div style={{ color: 'black', fontSize: 18, display: 'flex', justifyContent:'left', alignItems:'left' }}>Real-time Transcription with Azure Speech Cognitive Service</div>    
                 </div>
-                <div className="col-6 nlpoutput-display rounded" style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 360}}>                      
-                    <code style={{"color":"white"}}>{this.state.displayNLPOutput}</code>
+                <div class="col-6">
+                <div style={{ color: 'black', fontSize: 18, display: 'flex', justifyContent:'left', alignItems:'left' }}>Call Insights Extraction with Azure Language Cognitive Service</div>    
+                </div>
+              
+            </div> 
+
+
+            <div className="row"> 
+                <div class="col-6">
+                    <textarea class="form-control" id="transcriptTextarea" rows="10" style={{"background-color":"white", "color":"black", "borderWidth":"2px", 'borderColor':"white", 'borderStyle':'groove', overflowY: 'scroll', height: 360}}>
+                    Speak to your microphone or copy/paste your conversation transcript here
+                    </textarea>
+                </div>
+
+                <div className="col-6 nlpoutput-display rounded" style={{ height: 360}}>                      
+                    <code style={{"color":"black"}}>{this.state.displayNLPOutput}</code>
                 </div>
             </div>    
               
-              <div style={{ color: 'white', fontSize: 18, display: 'flex', justifyContent:'center' }}>Use the power of Azure OpenAI GPT-3 models to gain valuable insights from conversations in near real-time</div>
+              <div style={{ color: 'black', fontSize: 8, display: 'flex', justifyContent:'center' }}>.</div>
+              <div style={{ color: 'black', fontSize: 22, display: 'flex', justifyContent:'center' }}>Use Azure OpenAI GPT models to gain valuable business insights from conversations</div>
+              <div style={{ color: 'black', fontSize: 5, display: 'flex', justifyContent:'center' }}>.</div>
               <div class="row text-white">
                 <div class="col-sm-6">
-                    <div class="card text-center text-dark bg-info">
+                    <div class="card text-center text-dark bg-light">
                     <div class="card-body">
                         <h5 class="card-title">Conversation Summary using GPT-3 (Azure OpenAI)</h5>                     
-                        <button type="button" class="btn btn-danger btn-sm" onClick={() => this.stopRecording()}>END Conversation</button>
-                         --- <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptSummarizeText(this.state.displayText)}>Generate Conversation Summary</button>
+                        <button type="button" class="btn btn-info btn-sm" onClick={() => this.gptSummarizeText(this.state.displayText)}>Generate Conversation Summary</button>
                     </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="card text-center text-dark bg-info">
+                    <div class="card text-center text-dark ">
                     <div class="card-body">
                         <h5 class="card-title">Conversation Details using GPT-3 (Azure OpenAI)</h5>
-                        <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptParseExtractInfo(this.state.displayText)}>Extract Conversation Details</button>
+                        <button type="button" class="btn btn-info btn-sm" onClick={() => this.gptParseExtractInfo(this.state.displayText)}>Extract Conversation Details</button>
                     </div>
                     </div>
                 </div>
               </div>
               
               <div className="row"> 
-                  <div className="col-6 output-display rounded" style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>
-                        <code style={{"color":"white"}}>{this.state.gptSummaryText}</code>
+                  <div className="col-6 nlpoutput-display rounded" style={{ height: 300}}>
+                        <code style={{"color":"black"}}>{this.state.gptSummaryText}</code>
                   </div>
-                  <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
-                      <code style={{"color":"white"}}>{this.state.gptExtractedInfo}</code>
+                  <div className="col-6 nlpoutput-display rounded " style={{ height: 300}}>                      
+                      <code style={{"color":"black"}}>{this.state.gptExtractedInfo}</code>
                   </div>
               </div>   
-
-              <div style={{ color: 'white', fontSize: 20, display: 'flex', justifyContent:'center' }}>Prompt Engineering with Azure OpenAI GPT-3 models</div>
+            
+              <div style={{ color: 'black', fontSize: 10, display: 'flex', justifyContent:'center' }}>.</div>
+              <div style={{ color: 'black', fontSize: 22, display: 'flex', justifyContent:'center' }}>Prompt Engineering to Guide GPT-3 extract custom Business Insights</div>
+              <div style={{ color: 'black', fontSize: 5, display: 'flex', justifyContent:'center' }}>.</div>
               <div class="row text-dark">             
                 <div class="col-6">
-                    <label for="customPromptTextarea" class="form-label"style={{"color":"white"}}>Enter custom text prompt in below text area:       - </label>
-                    <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptCustomPromptCompetion(this.state.displayText)}>Try Custom Prompt</button>
-                    <textarea class="form-control" id="customPromptTextarea" rows="10" style={{"background-color":"black", "color":"white", "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll'}}>
-                    Type your custom prompt here
+                    <label for="customPromptTextarea" class="form-label"style={{"color":"black"}}>Enter your custom prompt: </label>
+                    <button type="button" class="btn btn-info btn-sm float-end" onClick={() => this.gptCustomPromptCompetion(this.state.displayText)}>Extract Insights</button>
+                    <textarea class="form-control" id="customPromptTextarea" rows="10" style={{"background-color":"white", "color":"black", "borderWidth":"2px", 'borderColor':"white", 'borderStyle':'groove', overflowY: 'scroll'}}>
+                    Enter a prompt here
                     </textarea>
                 </div>
-                <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
-                    <code style={{"color":"white"}}>{this.state.gptCustomPrompt}</code>
+                <div className="col-6 nlpoutput-display rounded " style={{ height: 300}}>                      
+                    <code style={{"color":"black"}}>{this.state.gptCustomPrompt}</code>
                 </div>                     
               </div>
                 <p> </p>
               <div class="row text-dark">             
                 <div class="col-6">
-                    <label for="customPromptTextarea" class="form-label"style={{"color":"white"}}>Enter custom text prompt in below text area:       - </label>
-                    <button type="button" class="btn btn-dark btn-sm" onClick={() => this.gptCustomPromptCompetion2(this.state.displayText)}>Try Custom Prompt</button>
-                    <textarea class="form-control" id="customPromptTextarea2" rows="10" style={{"background-color":"black", "color":"white", "borderWidth":"5px", 'borderColor':"green", 'borderStyle':'solid', overflowY: 'scroll'}}>
-                    What do you want GPT-3 to do?
+                    <label for="customPromptTextarea" class="form-label" style={{"color":"black"}}>Enter your custom prompt:</label>
+                    <button type="button" class="btn btn-info btn-sm float-end" onClick={() => this.gptCustomPromptCompetion2(this.state.displayText)}>Extract Insights</button>
+                    <textarea class="form-control" id="customPromptTextarea2" rows="10" style={{"background-color":"white", "color":"black", "borderWidth":"2px", 'borderColor':"white", 'borderStyle':'groove', overflowY: 'scroll'}}>
+                    Enter a prompt here
                     </textarea>
                 </div>
-                <div className="col-6 nlpoutput-display rounded " style={{ fontSize: 18, "borderWidth":"5px", 'borderColor':"blue", 'borderStyle':'solid', overflowY: 'scroll', height: 300}}>                      
-                    <code style={{"color":"white"}}>{this.state.gptCustomPrompt2}</code>
+                <div className="col-6 nlpoutput-display rounded " style={{ height: 300}}>                      
+                    <code style={{"color":"black"}}>{this.state.gptCustomPrompt2}</code>
                 </div>                     
               </div>
 
