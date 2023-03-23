@@ -1,6 +1,6 @@
-# Real-time Call Intelligence using Azure AI
+# Azure AI (including Azure OpenAI) - powered Conversation Intelligence
 
-This solution component provides real-time transcription and analysis of a call to improve the customer experience by providing insights. This solution can help with agent-assist and virtual agents use cases. Key technical components of this part of the accelerator are:
+This solution component provides real-time transcription and analysis of a call to improve the customer experience by exctracting custom business insights. This solution can help with agent-assist and virtual agents use cases. Key technical components of this part of the accelerator are:
     * Transcription of live audio stream using Azure Speech Service
     * Entity extraction + PII detection and redaction using Azure Language Service
     * Conversation summarization using Azure OpenAI Service
