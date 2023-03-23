@@ -48,14 +48,13 @@ export default class App extends Component {
   }
 
   async sttFromMic() {
-      const tokenObj = await getTokenOrRefresh();
-      //const customSpeechEndpoint = process.env.CUSTOM_SPEECH_ENDPOINT_ID;
+      const tokenObj = await getTokenOrRefresh();      
       const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(tokenObj.authToken, tokenObj.region);
-      speechConfig.speechRecognitionLanguage = 'en-US';
+      //speechConfig.speechRecognitionLanguage = 'en-US';         
 
-      //Setting below specifies custom speech model ID that is created using Speech Studio
-      //speechConfig.endpointId = 'd26026b7-aaa0-40bf-84e7-35054451a3f4';
+      var convLanguage = document.getElementById("formSelectConvLanguage").value;
 
+      speechConfig.speechRecognitionLanguage = convLanguage;   
       const audioConfig = speechsdk.AudioConfig.fromDefaultMicrophoneInput();
       recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
 
@@ -99,11 +98,11 @@ export default class App extends Component {
             }         
 
             //Display PII Detected               
-            const piiText = nlpObj.piiExtracted;
+            /*const piiText = nlpObj.piiExtracted;
             if(piiText.length > 21){
                 nlpText += "\n" + piiText; 
                 this.setState({ displayNLPOutput: nlpText.replace('<br/>', '\n') }); 
-            }                    
+            }      */              
         }
         else if (e.result.reason === ResultReason.NoMatch) {
             //resultText += `\nNo Match`
@@ -160,23 +159,46 @@ export default class App extends Component {
           <Container className="app-container">
              <div class="card text-white bg-dark mb-3 text-center" >
                 <h3 class="card-header">Azure AI + Azure OpenAI - powered Conversation Intelligence</h3>
-                <p> </p>
+                <p> </p>                
+                
                 <form class="row row-cols-lg-auto g-3 align-items-center text-white">     
-                    <div class="col-3">
-                        <select class="form-select" id="formSelectConvScenario">
-                            <option selected>Choose Conversation Scenario</option>
-                            <option value="1">Insurance</option>
-                            <option value="2">Banking</option>
-                            <option value="3">CapitalMarkets</option>
-                            <option value="4">Healthcare</option>
-                            <option value="5">General</option>
+                    <div class="col-2">                      
+                        <select class="form-select" id="formSelectConvLanguage">
+                            <option value="en-US" selected>Select Language</option>
+                            <option value="en-US">English (USA)</option>
+                            <option value="en-GB">English (UK)</option>
+                            <option value="es-ES">Spanish (Spain)</option>
+                            <option value="es-MX">Spanish (Mexico)</option>
+                            <option value="fr-CA">French (Canada)</option>
+                            <option value="fr-FR">French (France)</option>
+                            <option value="it-IT">Italian (Italy)</option>
+                            <option value="ja-JP">Japanese (Japan)</option>
+                            <option value="da-DK">Danish (Denmark)</option>
+                            <option value="wuu-CN">Chinese (Wu, Simplified)</option>
+                            <option value="hi-IN">Hindi (India)</option>
+                            <option value="gu-IN">Gujarati (India)</option>
+                            <option value="te-IN">Telugu (India)</option>
+                            <option value="de-DE">German (Germany)</option>
+                            <option value="el-GR">Greek (Greece)</option>
+                            <option value="ar-EG">Arabic (Egypt)</option>
+                            <option value="el-GR">Greek (Greece)</option>
+                            <option value="ar-IL">Arabic (Israel)</option>
+                            <option value="ar-SA">Arabic (Saudi Arabia)</option>
+                            <option value="cs-CZ">Czech (Czechia)</option>
+                            <option value="ko-KR">Korean (Korea)</option>
+                            <option value="nl-NL">Dutch (Netherlands)</option>
+                            <option value="pt-BR">Portuguese (Brazil)</option>
+                            <option value="pt-PT">Portuguese (Portugal)</option>
+                            <option value="sv-SE">Swedish (Sweden)</option>
+                            <option value="he-IL">Hebrew (Israel)</option>
                         </select>
+                        
                     </div>
-                    <div class="col-4">
+                    <div class="col-8">
                         <button type="button" class="btn btn-success btn-sm" onClick={() => this.sttFromMic()}>START Conversation</button> &emsp; &ensp;
-                        <button type="button" class="btn btn-outline-danger btn-sm" onClick={() => this.stopRecording()}>END Conversation</button>
-                    </div>   
-                    <div style={{ color: 'white', fontSize: 13, display: 'flex', justifyContent:'center', alignItems:'center' }}>This conversation will be recorded in YOUR Azure subscription if you enable it.</div>     
+                        <button type="button" class="btn btn-outline-danger btn-sm" onClick={() => this.stopRecording()}>END Conversation</button>&emsp; &ensp;&emsp; &ensp;
+                        <a href="https://azureopenaicallintel.z13.web.core.windows.net/" target="_blank" rel="noopener noreferrer">Additional Resources</a>
+                    </div>                      
                 </form>
                 <p> </p>
             </div>
@@ -204,39 +226,8 @@ export default class App extends Component {
                 </div>
             </div>    
               
-              <div style={{ color: 'black', fontSize: 8, display: 'flex', justifyContent:'center' }}>.</div>
-              <div style={{ color: 'black', fontSize: 22, display: 'flex', justifyContent:'center' }}>Use Azure OpenAI GPT models to gain valuable business insights from conversations</div>
-              <div style={{ color: 'black', fontSize: 5, display: 'flex', justifyContent:'center' }}>.</div>
-              <div class="row text-white">
-                <div class="col-sm-6">
-                    <div class="card text-center text-dark bg-light">
-                    <div class="card-body">
-                        <h5 class="card-title">Conversation Summary using GPT-3 (Azure OpenAI)</h5>                     
-                        <button type="button" class="btn btn-info btn-sm" onClick={() => this.gptSummarizeText(this.state.displayText)}>Generate Conversation Summary</button>
-                    </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="card text-center text-dark ">
-                    <div class="card-body">
-                        <h5 class="card-title">Conversation Details using GPT-3 (Azure OpenAI)</h5>
-                        <button type="button" class="btn btn-info btn-sm" onClick={() => this.gptParseExtractInfo(this.state.displayText)}>Extract Conversation Details</button>
-                    </div>
-                    </div>
-                </div>
-              </div>
-              
-              <div className="row"> 
-                  <div className="col-6 nlpoutput-display rounded" style={{ height: 300}}>
-                        <code style={{"color":"black"}}>{this.state.gptSummaryText}</code>
-                  </div>
-                  <div className="col-6 nlpoutput-display rounded " style={{ height: 300}}>                      
-                      <code style={{"color":"black"}}>{this.state.gptExtractedInfo}</code>
-                  </div>
-              </div>   
-            
               <div style={{ color: 'black', fontSize: 10, display: 'flex', justifyContent:'center' }}>.</div>
-              <div style={{ color: 'black', fontSize: 22, display: 'flex', justifyContent:'center' }}>Prompt Engineering to Guide GPT-3 extract custom Business Insights</div>
+              <div style={{ color: 'black', fontSize: 22, display: 'flex', justifyContent:'center' }}>Prompt Engineering to Guide Azure OpenAI GPT extract custom Business Insights</div>
               <div style={{ color: 'black', fontSize: 5, display: 'flex', justifyContent:'center' }}>.</div>
               <div class="row text-dark">             
                 <div class="col-6">

@@ -16,7 +16,10 @@ This solution accelerator has two main components:
     * Conversation summarization using Azure OpenAI Service
     * Extract business insights & conversation details using Azure OpenAI Service
 
-    **To setup and run this solution component**, please refer to [Real-time Intelligence](call-intelligence-realtime/README.md) for step-by-step instructions.
+This is a web-based app that enables you to simulate Agent-Customer interactions (in any line of business) and shows the power of Azure AI to augment the human and acts as a **very effective copilot** (screenshot below)
+<img src="call-intelligence-realtime/common/images/sampleoutputaiintelligence-main.PNG" align="center"/>
+
+**To setup and run this solution component**, please refer to [Real-time Intelligence](call-intelligence-realtime/README.md) for step-by-step instructions.
 
 2. **`Post-call Analytics`** component: Post-call analysis to create insights into customer conversations to improve understanding and support continuous improvement of call handling, optimization of quality assurance and compliance control as well as other insight driven optimizations. Key technical components of this part of the accelerator are:
     * Batch speech-to-text using Azure Speech: Transcribe large amounts of audio files asynchronously including speaker diarization and is typically used in post-call analytics scenarios. Diarization is the process of recognizing and separating speakers in mono channel audio data.    
