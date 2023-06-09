@@ -46,7 +46,7 @@ export async function getGPT3CustomPromptCompletion(requestText, customPrompt) {
         const res = await axios.post('/openai/gpt/customPrompt', data, {headers});                
         return res;
     } catch (err) {       
-        return {data: "No data from GPT custom prompt competion"};
+        return {data: "Error occured while invoking Azure OpenAI API, please try again" + err.message};
     }
 }
 

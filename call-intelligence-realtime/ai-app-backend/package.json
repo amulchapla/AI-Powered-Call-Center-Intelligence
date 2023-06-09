@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@azure/ai-text-analytics": "^5.1.0",
+    "@azure/cosmos": "^3.17.3",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1"

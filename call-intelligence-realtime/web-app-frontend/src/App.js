@@ -119,7 +119,11 @@ export default class App extends Component {
     //const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
     const gptObj = await getGPT3CustomPromptCompletion(transcriptInputForPmt, customPromptText);
     const gptText = gptObj.data.text;
-    this.setState({ gptCustomPrompt: gptText.replace("\n\n", "") });
+    try{
+        this.setState({ gptCustomPrompt: gptText.replace("\n\n", "") });
+    }catch(error){
+        this.setState({ gptCustomPrompt: gptObj.data });
+    }
   }
 
   async gptCustomPromptCompetion2(inputText){
@@ -128,7 +132,11 @@ export default class App extends Component {
     //const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
     const gptObj = await getGPT3CustomPromptCompletion(transcriptInputForPmt2, customPromptText);
     const gptText = gptObj.data.text;
-    this.setState({ gptCustomPrompt2: gptText.replace("\n\n", "") });
+    try{
+        this.setState({ gptCustomPrompt2: gptText.replace("\n\n", "") });
+    }catch(error){
+        this.setState({ gptCustomPrompt2: gptObj.data });
+    }
   }
 
   async gptSummarizeText(inputText){    
@@ -191,6 +199,9 @@ export default class App extends Component {
                             <option value="pt-PT">Portuguese (Portugal)</option>
                             <option value="sv-SE">Swedish (Sweden)</option>
                             <option value="he-IL">Hebrew (Israel)</option>
+                            <option value="th-TH">Thai (Thailand)</option>
+                            <option value="ta-IN">Tamil (India)</option>
+                            <option value="mr-IN">Marathi (India)</option>
                         </select>
                         
                     </div>

@@ -4,6 +4,7 @@ const router = express.Router();
 const axios = require('axios');
 const config = require('../config.json');
 const openaiconfig = require('./openai-config.json');
+const { writeData, updateData } = require('../data/data-logging.js')
 
 //Set up OpenAI API key and endpoint
 const openaiKey = config[0].openai_key;
@@ -38,15 +39,22 @@ router.post('/gpt/customPrompt', async (req, res) => {
     const headers = {'Content-Type': 'application/json', 'api-key': openaiKey};
     const params = {
         "prompt": customParsePrompt,
-        "max_tokens": 1000,
+        "max_tokens": 3000,
         "temperature": openaiTemperature,
         "top_p": openaiTopP,
         "frequency_penalty": openaiFrequencyPenalty,
         "presence_penalty": openaiPresencePenalty
     }
-
-    const completionResponse = await axios.post(url, params, {headers: headers});
-    res.send(completionResponse.data.choices[0]);    
+    try{
+        const completionResponse = await axios.post(url, params, {headers: headers});
+        res.send(completionResponse.data.choices[0]);         
+        writeData(req.body.transcript, requestCustomPrompt, completionResponse.data.choices[0], req.ip)
+    }catch(error){
+        console.error('ERROR WITH AZURE OPENAI API:', error.message);
+        res.send(error.message)
+        writeData(req.body.transcript, requestCustomPrompt, error, req.ip)
+    }   
+    
 });
 
 router.post('/gpt/summarize', async (req, res) => {
@@ -54,7 +62,7 @@ router.post('/gpt/summarize', async (req, res) => {
     const summaryPrompt = requestText + "\n\nTl;dr";   
     const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;        
 
-    console.log('Prompt for summary ' + summaryPrompt);    
+    //console.log('Prompt for summary ' + summaryPrompt);    
     const headers = {'Content-Type': 'application/json', 'api-key': openaiKey};
     const params = {
         "prompt": summaryPrompt,
@@ -87,7 +95,7 @@ router.post('/gpt/parseExtractInfo', async (req, res) => {
         requestPrompt = generalPrompt;
     }
 
-    console.log('Using Request prompt: ' + requestPrompt);
+    //console.log('Using Request prompt: ' + requestPrompt);
     const parsePrompt = requestText + "\n\n" + requestPrompt;
     
     const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;        
@@ -96,8 +104,8 @@ router.post('/gpt/parseExtractInfo', async (req, res) => {
     const headers = {'Content-Type': 'application/json', 'api-key': openaiKey};
     const params = {
         "prompt": parsePrompt,
-        "max_tokens": 900,
-        "temperature": 0,
+        "max_tokens": 1900,
+        "temperature": 0.1,
         "top_p": 1,
         "frequency_penalty": 0,
         "presence_penalty": 0
