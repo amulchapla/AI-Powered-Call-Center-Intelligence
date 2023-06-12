@@ -13,7 +13,8 @@
     "all": "0.0.0",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
-    "microsoft-cognitiveservices-speech-sdk": "^1.18.0",
+    "iso8601-duration": "^2.1.1",
+    "microsoft-cognitiveservices-speech-sdk": "^1.29.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
@@ -23,8 +24,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

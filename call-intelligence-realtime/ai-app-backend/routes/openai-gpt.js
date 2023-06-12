@@ -32,14 +32,27 @@ router.get('/gpt/sayhello', async (req, res) => {
 });
 
 router.post('/gpt/customPrompt', async (req, res) => {
+    // const requestText = JSON.stringify(req.body.transcript);
+    // const requestCustomPrompt = req.body.customPrompt;
+    // const customParsePrompt = requestText + "\n\n" + requestCustomPrompt;
+    // const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;        
+
     const requestText = JSON.stringify(req.body.transcript);
     const requestCustomPrompt = req.body.customPrompt;
-    const customParsePrompt = requestText + "\n\n" + requestCustomPrompt;
-    const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;        
+  
+    // Calculate the maximum number of tokens allowed
+    const maxTokenLimit = 2047; // Replace with the appropriate token limit for your model
+  
+    // Truncate or reduce the length of the transcript
+    const truncatedTranscript = truncateText(requestText, maxTokenLimit);
+  
+    const customParsePrompt = truncatedTranscript + "\n\n" + requestCustomPrompt;
+    const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;
+
     const headers = {'Content-Type': 'application/json', 'api-key': openaiKey};
     const params = {
         "prompt": customParsePrompt,
-        "max_tokens": 3000,
+        "max_tokens": 1000,
         "temperature": openaiTemperature,
         "top_p": openaiTopP,
         "frequency_penalty": openaiFrequencyPenalty,
@@ -96,15 +109,26 @@ router.post('/gpt/parseExtractInfo', async (req, res) => {
     }
 
     //console.log('Using Request prompt: ' + requestPrompt);
-    const parsePrompt = requestText + "\n\n" + requestPrompt;
+    // const parsePrompt = requestText + "\n\n" + requestPrompt;
     
-    const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;        
+    // const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;        
+
+  // Calculate the maximum number of tokens allowed
+  const maxTokenLimit = 2040; // Replace with the appropriate token limit for your model
+
+  // Truncate or reduce the length of the transcript
+  const truncatedTranscript = truncateText(req.body.transcript, maxTokenLimit);
+
+  // Construct the parsePrompt by combining the truncated transcript and requestPrompt
+  const parsePrompt = truncatedTranscript + "\n\n" + requestPrompt;
+
+  const url = openaiEndpoint + 'openai/deployments/' + openaiDeploymentName + '/completions?api-version=' + openaiApiVersion;
 
     //console.log('Prompt for parseExtractInfo ' + parsePrompt);    
     const headers = {'Content-Type': 'application/json', 'api-key': openaiKey};
     const params = {
         "prompt": parsePrompt,
-        "max_tokens": 1900,
+        "max_tokens": 1000,
         "temperature": 0.1,
         "top_p": 1,
         "frequency_penalty": 0,
@@ -115,6 +139,22 @@ router.post('/gpt/parseExtractInfo', async (req, res) => {
     //console.log('Parse response: ' + parseResponse.data);
     res.send(parseResponse.data.choices[0]);    
 });
+
+// Function to truncate text while preserving complete sentences
+function truncateText(text, maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+  
+    const truncatedText = text.slice(0, maxLength);
+    const lastSentenceEnd = truncatedText.lastIndexOf(".");
+  
+    if (lastSentenceEnd !== -1) {
+      return truncatedText.slice(0, lastSentenceEnd + 1);
+    }
+  
+    return truncatedText;
+  }
 
 module.exports = router;
 
