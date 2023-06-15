@@ -403,7 +403,11 @@ var recognizer;
       //const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
       const gptObj = await getGPT3CustomPromptCompletion(transcriptInputForPmt, customPromptText);
       const gptText = gptObj.data.text;
-      this.setState({ gptCustomPrompt: gptText.replace("\n\n", "") });
+      try{
+          this.setState({ gptCustomPrompt: gptText.replace("\n\n", "") });
+      }catch(error){
+          this.setState({ gptCustomPrompt: gptObj.data });
+      }
     }
   
     async gptCustomPromptCompetion2(inputText){
@@ -412,7 +416,11 @@ var recognizer;
       //const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
       const gptObj = await getGPT3CustomPromptCompletion(transcriptInputForPmt2, customPromptText);
       const gptText = gptObj.data.text;
-      this.setState({ gptCustomPrompt2: gptText.replace("\n\n", "") });
+      try{
+          this.setState({ gptCustomPrompt2: gptText.replace("\n\n", "") });
+      }catch(error){
+          this.setState({ gptCustomPrompt2: gptObj.data });
+      }
     }
   
     async gptSummarizeText(inputText){    
@@ -544,10 +552,10 @@ var recognizer;
   
                     <div className="row">
                         <div class="col-6">
-                            <div style={{ color: 'black', fontSize: 18, display: 'flex', justifyContent: 'left', alignItems: 'left' }}>Real-time Transcription with Azure Speech Cognitive Service</div>
+                            <div style={{ color: 'black', fontSize: 18, display: 'flex', justifyContent: 'left', alignItems: 'left' }}>Transcription with Azure Speech Cognitive Service</div>
                         </div>
                         <div class="col-6">
-                            <div style={{ color: 'black', fontSize: 18, display: 'flex', justifyContent: 'left', alignItems: 'left' }}>Call Insights Extraction with Azure Language Cognitive Service</div>
+                            <div style={{ color: 'black', fontSize: 18, display: 'flex', justifyContent: 'left', alignItems: 'left' }}>Call Insights Extraction with Azure OpenAI</div>
                         </div>
   
                     </div>
@@ -579,7 +587,7 @@ var recognizer;
                   return (
 
                     <div onClick={() => this.handleSentenceClick({ index })} key={index} style={{ height: "auto", color: 'black'}}>
-                      <span style={{ color: sentimentColor, fontWeight: 'bold' }}>{tag}:</span><span style={{ background: this.state.currentSentenceIndex === index ? "yellow" : "transparent" }}> {text}</span>
+                      <span style={{ color: sentimentColor, fontWeight: 'bold' }}>{tag}:</span><span style={{ background: this.state.currentSentenceIndex === index ? "yellow" : "transparent" }} contentEditable={true}> {text}</span>
                       <div style={{ height: "12px" }} ></div>
                     </div>
 
