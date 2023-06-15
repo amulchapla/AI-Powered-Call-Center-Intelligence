@@ -16,9 +16,11 @@
   "dependencies": {
     "@azure/ai-text-analytics": "^5.1.0",
     "@azure/cosmos": "^3.17.3",
+    "@azure/storage-blob": "^12.14.0",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
