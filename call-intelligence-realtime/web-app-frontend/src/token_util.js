@@ -50,6 +50,18 @@ export async function getGPT3CustomPromptCompletion(requestText, customPrompt) {
     }
 }
 
+export async function getGPT3DiarizationPromptCompletion(requestText, customPrompt) {      
+    try{
+        //GPT-3 prompt completion
+        const data = {transcript: requestText, customPrompt: customPrompt};
+        const headers = { 'Content-Type': 'application/json' };
+        const res = await axios.post('/openai/gpt/DiarizationPrompt', data, {headers});                
+        return res;
+    } catch (err) {       
+        return {data: "Error occured while invoking Azure OpenAI API, please try again" + err.message};
+    }
+}
+
 export async function getGPT3Summarize(requestText) {      
     try{
         //GPT-3 Summarize using the completion API 
