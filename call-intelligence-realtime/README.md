@@ -1,37 +1,46 @@
 # Azure AI (including Azure OpenAI) - powered Conversation Intelligence
 
-This solution component provides real-time transcription and analysis of a call to improve the customer experience by exctracting custom business insights. This solution can help with agent-assist and virtual agents use cases. Key technical components of this part of the accelerator are:
-    * Transcription of live audio stream using Azure Speech Service
+This solution component provides both real-time and batch transcription and analysis of a call to improve customer experience by extracting custom business insights. This solution can help with agent-assist and virtual agents use cases. Key technical components of this part of the accelerator are:
+    * Transcription of live audio stream using Azure Speech Service (for Live)
+    * Transcription of dual channel call-center audio via Ingestion Client which uses Azure Speech Service (for Batch)
     * Entity extraction + PII detection and redaction using Azure Language Service
     * Conversation summarization using Azure OpenAI Service
     * Extract business insights & conversation details using Azure OpenAI Service
 
-This sample simulates call center intelligence in real-time using Azure AI services. It uses Azure Speech SDK to capture audio from a microphone and convert it to text. The text is then sent to Azure Language service to extract entities, key phrases, and detect+ redact PII information. The data is then displayed in a web page in real-time using streaming pattern.
-
-Once the call is completed, the transcript is sent to Azure OpenAI service to summarize the call. Azure OpenAI service is also used to parse raw call transcript and extract key business information using domain specific prompts. The data is then displayed in a web page UI.
+Live mode simulates call center intelligence in real-time using Azure AI services. It uses Azure Speech SDK to capture audio from a microphone and convert it to text. The text is then sent to Azure Language service to extract entities, key phrases, and detect+ redact PII information. The data is then displayed on a web page in real-time using streaming pattern.
 
 The web provides an option to select business domain for a specific conversation. The domain is used to select the appropriate OpenAI prompt to extract key business information.
 
-This sample shows design pattern examples for authentication token exchange and management, as well as capturing audio from a microphone for speech-to-text conversions.
+Batch mode transcribes dual-channel call center recordings and extracts valuable information such as Personal Identifiable Information (PII), sentiment, and other valuable key insights. 
 
-Below diagram depicts key components and API/communication used in this sample
+When the user selects an audio file and click the ‘Transcribe’ button, an API is called which handles the upload process of that file into the Ingestion Client’s Container. Then, the audio is transcribed using Azure Speech Service and further stored in another container. At last, the generated transcript is fetched and displayed in the correct format onto the UI.
+
+Once the transcript is done, it is sent to Azure OpenAI service to summarize the call. Azure OpenAI service is also used to parse raw call transcripts and extract key business information using domain specific prompts. The data is then displayed in web page UI.
+This sample shows design pattern examples for authentication token exchange and management, as well as speech-to-text conversions.
+
+Below diagram depicts key components and API/communication used in the live mode
 <img src="common/images/realtime-intelligence.png" align="center" />
 
-This sample uses Express.js backend framework which allows you to make http calls from any front end. ReactJS is used for frontend app. *NOTE*: This sample is only using the Azure Speech SDK - it does not use Azure Bot Service and Direct Line Speech channel.
+Below diagram depicts key components and API/communication used in the Batch mode
+<img src="common/images/batch.png" align="center" />
+
+This sample uses Express.js backend framework which allows you to make http calls from any front end. ReactJS is used for the frontend app. *NOTE*: This sample is only using the Azure Speech SDK - it does not use Azure Bot Service and Direct Line Speech channel.
 
 * **ai-app-backend**: `ai-app-backend` is an Express-based backend API app. Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. It facilitates the rapid development of Node based web applications.
 
-* **web-app-frontend** `web-app-frontend` is a React-based web frontend app. React.js often referred to as React or ReactJS is a JavaScript library responsible for building a hierarchy of UI components or in other words, responsible for the rendering of UI components. It provides support for both frontend and server-side.
+* **web-app-frontend** `web-app-frontend` is a React-based web frontend app. React.js often referred to as React or ReactJS is a JavaScript library responsible for building a hierarchy of UI components or in other words, responsible for the rendering of UI components. It provides support for both the front-end and server-side.
 
 ## Prerequisites
 
-1. This article assumes that you have an Azure account. If you don't have an Azure account and subscription, [try the Azure account for free](https://azure.microsoft.com/en-us/free/search/).
-2. Create a [Azure Speech resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices) in the Azure portal.
-3. Create a [Azure Language resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics) in the Azure portal.
-4. Optionally, create a [Azure OpenAI resource](https://portal.azure.com/?microsoft_azure_marketplace_ItemHideKey=microsoft_openai_tip#create/Microsoft.CognitiveServicesOpenAI?WT.mc_id=academic-84928-cacaste) in the Azure portal. Note: OpenAI is currently in preview and is not available in all regions. You can check the [OpenAI documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/openai/overview?WT.mc_id=academic-84928-cacaste) for more information.
-5. Install [Node.js](https://nodejs.org/en/download/) on your laptop to run the frontend and backend apps on your local machine.
+1. This article assumes that you have an Azure account. If you don't have an Azure account and subscription, [try the Azure account for free] (https://azure.microsoft.com/en-us/free/search/).
+2. Create a [Azure Speech resource] (https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices) in the Azure portal.
+3. Create a [Azure Language resource] (https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics) in the Azure portal.
+4. Optionally, create a [Azure OpenAI resource] (https://portal.azure.com/?microsoft_azure_marketplace_ItemHideKey=microsoft_openai_tip#create/Microsoft.CognitiveServicesOpenAI?WT.mc_id=academic-84928-cacaste) in the Azure portal. Note: OpenAI is currently in preview and is not available in all regions. You can check the [OpenAI documentation] (https://docs.microsoft.com/en-us/azure/cognitive-services/openai/overview?WT.mc_id=academic-84928-cacaste) for more information.
+5. Deploy the provided ArmTemplateBatch.json file and configure the Ingestion Client in Azure Portal. (For Batch Mode)
+   Steps for deploying and configuring the client are listed below.
+6. Install [Node.js] (https://nodejs.org/en/download/) on your laptop to run the frontend and backend apps on your local machine.
 
-## How to Setup and Run this real-time solution component
+## How to Setup and Run this solution component
 
 1. Clone this repo. This repo has two apps as shown in the architecture diagram above: 
     * web-app-frontend folder is for the "ReactJS Frontend" web UI component and
@@ -39,12 +48,13 @@ This sample uses Express.js backend framework which allows you to make http call
 
 
 2. **Prepare and run the backend app (in folder ai-app-backend)**
-    -	Go to ai-app-backend directory and run `npm install -all` to install dependencies.
+    -	Go to the ai-app-backend directory and run `npm install -all` to install dependencies.
     -	Update the “config.json” file with your Azure Speech service key (speech_subscription_key property) and Azure region (speech_region property). Azure Region value examples: “eastus2”, “westus”
     -	Update the “config.json” file with your Azure Language service key (text_analytics_key property) and endpoint (text_analytics_endpoint property). 
     -	Update the “config.json” file with your Azure OpenAI service key (openai_key property), endpoint (openai_endpoint property) and deployment name (openai_deployment_name property).
-    -	Start backend AI API app by running `‘npm start’`
-    -	If you are running this locally then try accessing below URLs from browser to verify that the backend component is working as expected
+    -   For supporting Batch, update the ".env" file with your Ingestion Client container's connection string (LOCALE-ID_CONNECTION_STRING) and make sure to keep the AZURE_STORAGE_CONTAINER_NAME as"audio-input".
+	-	Start backend AI API app by running `‘npm start’`
+    -	If you are running this locally then try accessing the below URLs from browser to verify that the backend component is working as expected
         *	`http://localhost:8080/api/sayhello`
         *	`http://localhost:8080/api/get-speech-token`
     -	If you have deployed ai-app-backend app to Azure App Service (as per instructions below) then you can verify using URLs from browser as below:
@@ -59,11 +69,51 @@ This sample uses Express.js backend framework which allows you to make http call
     +	Open a browser and go to `http://localhost:3000` to access the app. 
     +   On the web UI, select a business domain that alings best with your conversation scenario from the "Choose Conversation Scenario" dropbox.
     +   Click on the "Click HERE and START Talking" button on the web page and start talking. You should see transcription displayed on the web page in real-time (an example shown below).
-
+**LIVE Window**
     <img src="common/images/sampleoutputaiintelligence.PNG " align="center" />
 
+**BATCH Window**
 
-    +	If you have also deployed the frontend ReactJS to Azure App Service then use the deployed app service URL which you can find on Azure portal for your App Service. Example: `https://myweb-app-frontend.azurewebsites.net`
+<img src="common/images/sampleoutputaiintelligenceBatch.PNG " align="center" />
+ 
+
+
++	If you have also deployed the frontend ReactJS to Azure App Service then use the deployed app service URL which you can find on Azure portal for your App Service. Example: `https://myweb-app-frontend.azurewebsites.net`
+
+##Steps to set up Ingestion Client through Azure Portal
+
+Follow the instructions given below:
+1.	In the Azure portal, click Create a Resource. In the search box, type template deployment, and select the Template deployment resource.
+2.	On the screen that appears, choose Template deployment (deploy using custom templates) and click the Create button.
+You will be creating Azure resources from the ARM template we provided in the >ai-app-backend>Template folder.
+
+3.	Click on the Build your own template in the editor link.  
+<img src="common/images/3.PNG " align="center" />
+ 
+4.	Load the template by clicking Load file. Alternatively, you could copy/paste the template in the editor.
+<img src="common/images/4.PNG " align="center" />
+  
+5.	Once the template text is loaded you will be able to read and edit the transcript. Do NOT attempt any edits at this stage. You need to save the template you loaded, so click the Save button.
+Saving the template will result in the screen below. You will need to fill in the form provided. It is important that all the information is correct. Let us look at the form and go through each field.
+•	Pick the Azure Subscription Id where you will create the resources.
+•	Either pick or create a resource group. (It would be better to have all the Ingestion Client resources within the same resource group, so we suggest you create a new resource group.)
+•	Pick a region. This can be the same region as your Azure Speech key.
+**FILL OUT ALL REQUIRED FIELD HIGHLIGHTED IN THE RED BOX**  
+<img src="common/images/5.PNG " align="center" />
+
+**Note: Select ‘Locale’ value as per the locale of the audio**
+
+
+6.	Press Create to create resources. It typically takes 1-2 mins. The resources are listed below. 
+<img src="common/images/6.PNG " align="center" />    
+
+
+**Note: In case you want support for one or more locales, deploy the template for each locale separately and store the connection string for the container of each locale in the .env file inside ai-app-backend folder**
+
+7. Make sure to store the connection string for the container in the .env file inside ai-app-backend folder.
+
+To know more about the Ingestion Client, its architecture and working, please refer: 
+AI-Powered-Call-Center-Intelligence/postcall-analytics-azure at main · amulchapla/AI-Powered-Call-Center-Intelligence · GitHub
 
 
 ## Deploying sample code to Azure App Service
