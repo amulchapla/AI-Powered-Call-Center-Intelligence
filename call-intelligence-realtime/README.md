@@ -88,10 +88,10 @@ Follow the instructions given below:
 You will be creating Azure resources from the ARM template we provided in the >ai-app-backend>Template folder.
 
 3.	Click on the Build your own template in the editor link.  
-<img src="common/images/3.PNG " align="center" />
+<img src="common/images/3.png " align="center" />
  
 4.	Load the template by clicking Load file. Alternatively, you could copy/paste the template in the editor.
-<img src="common/images/4.PNG " align="center" />
+<img src="common/images/4.png " align="center" />
   
 5.	Once the template text is loaded you will be able to read and edit the transcript. Do NOT attempt any edits at this stage. You need to save the template you loaded, so click the Save button.
 Saving the template will result in the screen below. You will need to fill in the form provided. It is important that all the information is correct. Let us look at the form and go through each field.
@@ -99,13 +99,13 @@ Saving the template will result in the screen below. You will need to fill in th
 •	Either pick or create a resource group. (It would be better to have all the Ingestion Client resources within the same resource group, so we suggest you create a new resource group.)
 •	Pick a region. This can be the same region as your Azure Speech key.
 **FILL OUT ALL REQUIRED FIELD HIGHLIGHTED IN THE RED BOX**  
-<img src="common/images/5.PNG " align="center" />
+<img src="common/images/5.png " align="center" />
 
 **Note: Select ‘Locale’ value as per the locale of the audio**
 
 
 6.	Press Create to create resources. It typically takes 1-2 mins. The resources are listed below. 
-<img src="common/images/6.PNG " align="center" />    
+<img src="common/images/6.png" align="center" />    
 
 
 **Note: In case you want support for one or more locales, deploy the template for each locale separately and store the connection string for the container of each locale in the .env file inside ai-app-backend folder**
