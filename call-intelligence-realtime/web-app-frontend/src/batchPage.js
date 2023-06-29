@@ -369,7 +369,7 @@ var recognizer;
       var customPromptText = "In the given call center conversation, categorize Speaker 0 and Speaker 1 into 'Agent' or 'Customer' after analysing their behavior. Store the result in a dictionary { key:value } where key-value pair is the speaker and his/her category respectively. Make sure to use double quotes for keys and string values";
       var transcriptInputForCA = document.getElementById("transcriptTextarea").value;
       //const gptObj = await getGPT3CustomPromptCompletion(inputText, customPromptText);
-      const gptObj = await getGPT3CustomPromptCompletion(transcriptInputForCA, customPromptText);
+      const gptObj = await getGPT3DiarizationPromptCompletion(transcriptInputForCA, customPromptText);
       const gptText = gptObj.data.text;
       console.log(gptObj);
       console.log(gptText);
